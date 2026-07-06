@@ -1,0 +1,9 @@
+# Tooling / agent scratch dirs
+.od-skills/
+
+# Crash dumps
+*.stackdump
+
+# OS cruft
+.DS_Store
+Thumbs.db

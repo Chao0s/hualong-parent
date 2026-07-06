@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/switch-child.html",
+  "entry": "screens/switch-child.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-27T07:17:01.592Z",
+  "updatedAt": "2026-06-27T07:17:01.592Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

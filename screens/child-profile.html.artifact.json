@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/child-profile.html",
+  "entry": "screens/child-profile.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-27T04:52:37.351Z",
+  "updatedAt": "2026-06-27T09:28:55.775Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}

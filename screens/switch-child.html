@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>切换孩子</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="../assets/app.css" />
+</head>
+<body>
+  <main class="stage"><section class="phone">
+    <div class="statusbar"><span>9:41</span><div class="status-icons"><span class="signal"></span><span class="signal"></span><span class="signal"></span><span class="battery"></span></div></div>
+    <div class="app">
+      <header class="top">
+        <a class="back" href="../index.html">‹</a>
+        <div class="titleblock"><h1>切换孩子</h1><p>当前默认展示一个孩子</p></div>
+      </header>
+
+      <section class="card child-card active-child" data-current-child-card>
+        <div class="row-main">
+          <span class="avatar" data-current-child-avatar>雨</span>
+          <div class="row-text">
+            <h3 data-current-child-name>林小雨</h3>
+            <p data-current-child-meta>中一班 · 化龙幼儿园</p>
+          </div>
+        </div>
+        <span class="status done">当前</span>
+      </section>
+
+      <div class="section-title">
+        <h2>可切换孩子</h2>
+        <span class="small">绑定后显示</span>
+      </div>
+      <section class="list">
+        <button class="card row child-row selected" type="button" data-child-option data-child-name="林小雨" data-child-avatar="雨" data-child-meta="中一班 · 化龙幼儿园" data-child-task="今日待办 2 项">
+          <div class="row-main">
+            <span class="icon">雨</span>
+            <div class="row-text"><h3>林小雨</h3><p>中一班 · 今日待办 2 项</p></div>
+          </div>
+          <span class="status done" data-child-status>已选中</span>
+        </button>
+        <button class="card row child-row" type="button" data-child-option data-child-name="林小禾" data-child-avatar="禾" data-child-meta="小二班 · 化龙幼儿园" data-child-task="今日待办 1 项">
+          <div class="row-main">
+            <span class="icon">禾</span>
+            <div class="row-text"><h3>林小禾</h3><p>小二班 · 今日待办 1 项</p></div>
+          </div>
+          <span class="status" data-child-status>切换</span>
+        </button>
+        <button class="card row child-row muted-row" type="button" data-submit-demo="已进入添加/绑定孩子">
+          <div class="row-main">
+            <span class="icon">＋</span>
+            <div class="row-text"><h3>添加或绑定孩子</h3><p>通过园所邀请码或手机号绑定</p></div>
+          </div>
+          <span class="chevron">›</span>
+        </button>
+      </section>
+    </div>
+  </section></main>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

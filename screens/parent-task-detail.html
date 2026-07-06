@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>亲子任务详情</title><link rel="icon" href="data:,"><link rel="stylesheet" href="../assets/app.css"></head>
+<body>
+  <main class="stage"><section class="phone">
+    <div class="statusbar"><span>9:41</span><div class="status-icons"><span class="signal"></span><span class="signal"></span><span class="signal"></span><span class="battery"></span></div></div>
+    <div class="app">
+      <header class="top"><a class="back" href="parent-tasks.html" data-dynamic-back>‹</a><div class="titleblock"><h1 data-parent-task-page-title>亲子任务</h1></div><span class="status warn" data-parent-task-status>待完成</span></header>
+      <section class="card grid task-detail-chunk" data-parent-task-detail>
+        <div class="task-copy">
+          <p class="task-label">任务名称</p>
+          <h2 data-parent-task-name>留耕堂门前的石阶</h2>
+        </div>
+        <div class="task-copy" data-task-brief-block="background">
+          <p class="task-label">任务背景</p>
+          <p data-parent-task-background>幼儿园附近的留耕堂保留了传统建筑门楼、石阶和灰塑装饰。孩子可以从真实社区环境中观察建筑、道路和公共空间，理解生活环境与地方文化的关系。</p>
+        </div>
+        <div class="task-copy" data-task-brief-block="detail">
+          <p class="task-label">任务详情</p>
+          <p data-parent-task-detail-copy>请家长带幼儿在安全距离内观察留耕堂外观，拍摄一张照片，并请孩子说一说“这个地方和我们幼儿园有什么不同”。</p>
+        </div>
+        <div class="task-history-share" data-task-history-block hidden>
+          <p class="task-label">家长活动分享</p>
+          <p data-parent-task-share></p>
+          <div class="eval-photo-grid" data-parent-task-photos></div>
+        </div>
+        <div class="divider" data-task-submit-block></div>
+        <div class="field" data-task-submit-block><label>活动分享</label><textarea placeholder="记录孩子的观察、表达或提问"></textarea></div>
+        <div class="field" data-task-submit-block>
+          <label>添加图片 / 视频</label>
+          <div class="photo-add-grid">
+            <label class="photo-add" aria-label="添加本机图片或视频">
+              <input type="file" name="taskPhotos" multiple="" accept="image/*,video/*" data-file-upload="taskPhotos" aria-label="添加本机图片或视频">
+              <span>+</span>
+            </label>
+          </div>
+          <p class="small" data-file-upload-count="taskPhotos">未添加本机文件</p>
+        </div>
+        <button class="primary" data-submit-demo="任务反馈已提交" data-task-submit-block>提交反馈</button>
+      </section>
+    </div>
+  </section></main>
+  <script src="../assets/app.js"></script>
+
+
+</body></html>

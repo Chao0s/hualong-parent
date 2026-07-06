@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><title>月度评价填写</title><link rel="icon" href="data:," /><link rel="stylesheet" href="../assets/app.css" /></head>
+<body>
+  <main class="stage"><section class="phone">
+    <div class="statusbar"><span>9:41</span><div class="status-icons"><span class="signal"></span><span class="signal"></span><span class="signal"></span><span class="battery"></span></div></div>
+    <div class="app">
+      <header class="top"><a class="back" href="evaluation-tasks.html">‹</a><div class="titleblock"><h1>月度评价填写</h1></div><span class="status todo">待提交</span></header>
+      <section class="card">
+        <div class="field"><label>本月家庭观察</label><textarea name="monthly-observation" aria-label="本月家庭观察" placeholder="用家长视角记录孩子本月在家庭生活、亲子互动、阅读表达中的具体片段"></textarea></div>
+        <div class="field">
+          <label>添加照片</label>
+          <div class="photo-add-grid">
+            <label class="photo-add" aria-label="从本机添加照片"><input type="file" name="monthly-local-photos" accept="image/*" multiple data-file-upload="monthly"><span>+</span></label>
+          </div>
+          <span class="small" data-file-upload-count="monthly">未添加本机照片</span>
+        </div>
+      </section>
+      <div class="section-title"><h2>点选过往图片</h2><span class="small" data-photo-count="monthly">未选择</span></div>
+      <section class="card compact-picker-card">
+        <button class="pick-history" type="button" data-open-photo-sheet="monthly">
+          <span>选择过往相片</span>
+          <span class="chevron">›</span>
+        </button>
+      </section>
+      <div class="sheet" data-photo-sheet="monthly" hidden>
+        <div class="sheet-backdrop" data-close-photo-sheet="monthly"></div>
+        <section class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="monthly-photo-sheet-title">
+          <div class="sheet-head">
+            <div>
+              <h2 id="monthly-photo-sheet-title">选择过往相片</h2>
+              <p>素材来自已完成的亲子任务与社区任务，逐张勾选导入</p>
+            </div>
+            <button class="icon-button" type="button" aria-label="关闭" data-close-photo-sheet="monthly">×</button>
+          </div>
+          <div class="history-records" data-photo-picker="monthly"></div>
+          <button class="primary" type="button" data-close-photo-sheet="monthly">完成</button>
+        </section>
+      </div>
+      <div class="actions"><button class="secondary" data-submit-demo="草稿已保存">保存草稿</button><button class="primary" data-submit-demo="月度评价已提交">提交</button></div>
+    </div>
+  </section></main>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

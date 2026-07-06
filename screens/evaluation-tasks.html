@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>我的任务 · 家长评价</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="../assets/app.css">
+</head>
+<body>
+  <main class="stage"><section class="phone">
+    <div class="statusbar"><span>9:41</span><div class="status-icons"><span class="signal"></span><span class="signal"></span><span class="signal"></span><span class="battery"></span></div></div>
+    <div class="app has-tabbar">
+      <header class="top">
+        <a class="back" href="../index.html">‹</a>
+        <div class="titleblock"><h1>我的任务</h1><p>家长评价 · 月度与学期</p></div>
+      </header>
+
+      <div class="tabs" aria-label="任务类型切换">
+        <a class="active" href="evaluation-tasks.html" aria-current="page">家长评价</a>
+        <a href="parent-tasks.html">亲子任务</a>
+      </div>
+
+      <div class="segmented" data-filter-group>
+        <button class="active" data-filter-target="all">全部</button>
+        <button data-filter-target="monthly">月度评价</button>
+        <button data-filter-target="term">学期评价</button>
+      </div>
+
+      <div class="section-title" data-filter-item="all monthly term"><h2>待完成</h2></div>
+      <a class="card row" href="monthly-evaluation.html" data-filter-item="all monthly">
+        <div class="row-main"><span class="icon">月</span><div class="row-text"><h3>6 月月度评价</h3><p>教师推送 · 待填写</p></div></div>
+        <span class="status todo">待填</span>
+      </a>
+      <a class="card row" href="term-evaluation.html" data-filter-item="all term">
+        <div class="row-main"><span class="icon">期</span><div class="row-text"><h3>2026 春季学期评价</h3><p>可点选过往照片作为评价素材</p></div></div>
+        <span class="status todo">待填</span>
+      </a>
+
+      <div class="section-title" data-filter-item="all monthly term"><h2>历史评价</h2></div>
+      <a class="card eval-history-row" href="evaluation-history-detail.html?id=monthly-05&from=tasks" data-filter-item="all monthly">
+        <div class="eval-history-head">
+          <div>
+            <h3>5 月月度评价</h3>
+            <p>2026.05.28 提交 · 最近一次</p>
+          </div>
+          <span class="status done">已完成</span>
+        </div>
+        <span class="detail-link">查看完整评价 ›</span>
+      </a>
+      <a class="card row" href="all-reports.html?from=tasks" data-filter-item="all monthly term">
+        <div class="row-main"><span class="icon">报</span><div class="row-text"><h3>全部历史报告</h3><p>家长与教师的月度、学期、综合报告</p></div></div>
+        <span class="chevron">›</span>
+      </a>
+    </div>
+    <nav class="tabbar" aria-label="底部导航">
+      <a class="tab-item" href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.7V21h14V9.7"/></svg>首页</a>
+      <a class="tab-item on" href="evaluation-tasks.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17.5" rx="2.5"/><path d="m9 12.5 2.2 2.2 4.3-4.4"/></svg>我的任务</a>
+      <a class="tab-item" href="kindergarten-moments.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.5" cy="10" r="1.6"/><path d="m5 17 4.2-4.2 3 3 3.4-3.4L21 17"/></svg>在园时光</a>
+      <a class="tab-item" href="child-profile.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.2" r="3.6"/><path d="M4.8 20c1.6-3.8 4.6-5.2 7.2-5.2s5.6 1.4 7.2 5.2"/></svg>儿童档案</a>
+    </nav>
+  </section></main>
+  <script src="../assets/app.js"></script>
+</body></html>

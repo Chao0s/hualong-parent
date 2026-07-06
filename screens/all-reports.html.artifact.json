@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "kind": "html",
+  "title": "screens/all-reports.html",
+  "entry": "screens/all-reports.html",
+  "renderer": "html",
+  "status": "complete",
+  "exports": [
+    "html",
+    "pdf",
+    "zip"
+  ],
+  "createdAt": "2026-06-27T10:27:34.532Z",
+  "updatedAt": "2026-06-27T10:27:34.532Z",
+  "metadata": {
+    "inferred": true,
+    "reconciled": true
+  }
+}
