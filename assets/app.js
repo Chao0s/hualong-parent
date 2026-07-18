@@ -87,7 +87,7 @@ function bindMatrixFilters() {
 
 /* 跨入口详情页动态返回：链接带 ?from=xxx 时改写 [data-dynamic-back] 的目标 */
 const BACK_TARGETS = {
-  home: "../index.html",
+  home: "../home.html",
   tasks: "evaluation-tasks.html",
   "parent-tasks": "parent-tasks.html",
   "all-reports": "all-reports.html",

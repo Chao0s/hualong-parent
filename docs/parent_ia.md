@@ -90,7 +90,7 @@ flowchart LR
 
 | Tab | 目标屏 | 说明 |
 | --- | --- | --- |
-| 首页 | `index.html` | 待办提醒、本月评价直达、最新成长报告、四大入口 |
+| 首页 | `home.html` | 待办提醒、本月评价直达、最新成长报告、孩子切换 |
 | 我的任务 | `screens/evaluation-tasks.html` | 家长评价 ⇄ 亲子任务（顶部分段切换） |
 | 在园时光 | `screens/kindergarten-moments.html` | 班级动态流（开放浏览） |
 | 儿童档案 | `screens/child-profile.html` | 基础信息 + 成长档案/报告/成长册入口 |

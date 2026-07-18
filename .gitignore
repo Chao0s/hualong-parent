@@ -1,5 +1,6 @@
 # Tooling / agent scratch dirs
 .od-skills/
+*.artifact.json
 
 # Crash dumps
 *.stackdump

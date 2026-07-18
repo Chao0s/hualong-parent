@@ -810,3 +810,8 @@ h1, h2, h3, p { margin: 0; }
   .phone { height: 100vh; border-radius: 0; box-shadow: none; border: 0; }
   .app { height: calc(100vh - 34px); }
 }
+
+/* Centered top header for first-level tab pages */
+.top.centered { position: relative; justify-content: center; }
+.top.centered .titleblock { flex: 0 1 auto; text-align: center; }
+.top.centered .me-action { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
