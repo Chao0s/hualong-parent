@@ -17,7 +17,7 @@
 ## 预览入口
 
 - `index.html`：四个一级页面的并排总览，适合桌面端审阅。
-- `home.html`：家长端实际首页。
+- `screens/home.html`：家长端实际首页。
 - `screens/`：任务、在园时光、儿童档案及相关详情页面。
 
 项目为纯静态 HTML/CSS/JavaScript，无需构建。推荐通过本地静态服务器预览：
@@ -35,11 +35,11 @@ npx serve
 ```text
 .
 ├── index.html                         # 四个一级页面总览
-├── home.html                          # 家长端首页
 ├── assets/
 │   ├── app.css                        # 全局样式与设计 token
 │   └── app.js                         # 页面交互脚本
-├── screens/                           # 14 个功能与详情页面
+├── screens/                           # 15 个一级、功能与详情页面
+│   ├── home.html                      # 家长端首页
 │   ├── evaluation-tasks.html          # 我的任务 · 家长评价
 │   ├── monthly-evaluation.html        # 月度评价填写
 │   ├── term-evaluation.html           # 学期评价填写

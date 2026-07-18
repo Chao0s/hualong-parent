@@ -60,7 +60,7 @@ environment_isolation (环境隔离) = demo|test 数据不得复制到 productio
 | 5 | 编辑层背景关闭 | Close Editor by Backdrop | btn_parent_profile_edit_backdrop_close | db_parent_child_profile_home | NULL | close profile-edit sheet |
 | 6 | 编辑层关闭 | Close Profile Editor | btn_parent_profile_edit_close | db_parent_child_profile_home | NULL | close profile-edit sheet |
 | 7 | 保存修改 | Save Profile Changes | btn_parent_profile_save | db_child | child_id, child_name, birth_date, gender | submit then close profile-edit sheet |
-| 8 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | ../home.html |
+| 8 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | home.html |
 | 9 | 我的任务 | My Tasks | nav_parent_tasks | nav_parent_tasks | NULL | evaluation-tasks.html |
 | 10 | 在园时光 | Kindergarten Moments | nav_parent_moments | nav_parent_moments | NULL | kindergarten-moments.html |
 | 11 | 儿童档案 | Child Profile | nav_parent_child_profile | nav_parent_child_profile | NULL | child-profile.html |

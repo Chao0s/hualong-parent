@@ -1,7 +1,7 @@
 PARENT_HOME_BACKEND_OBJECT_SPEC
 
-scope (范围) = home.html
-source_page (参考页面) = home.html
+scope (范围) = screens/home.html
+source_page (参考页面) = screens/home.html
 static_node_count (固定可点击节点数) = 9
 dynamic_context_summary_count (动态当前幼儿摘要数) = 0:1
 dynamic_reminder_card_count (动态提醒卡片数) = 0:k
@@ -55,12 +55,12 @@ environment_isolation (环境隔离) = demo|test 数据不得复制到 productio
 
 | n | button_name_cn | button_name_en | node_key | object | input | jump |
 |---:|---|---|---|---|---|---|
-| 1 | 切换孩子 | Switch Child | nav_parent_switch_child | db_parent_child | parent_id | home.html > screens/switch-child.html |
-| 2 | 家长评价 | Parent Evaluation | btn_parent_home_evaluation | db_parent_evaluation | child_id | home.html > screens/evaluation-tasks.html |
-| 3 | 亲子任务 | Parent-Child Tasks | btn_parent_home_task | db_parent_task | child_id | home.html > screens/parent-tasks.html |
-| 4 | 全部提醒 | All Reminders | btn_parent_home_reminder_all | db_parent_home | child_id | home.html > screens/all-reminders.html |
-| 5 | 全部报告 | All Reports | btn_parent_home_report_all | db_parent_home | child_id | home.html > screens/all-reports.html |
-| 6 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | home.html |
+| 1 | 切换孩子 | Switch Child | nav_parent_switch_child | db_parent_child | parent_id | screens/home.html > screens/switch-child.html |
+| 2 | 家长评价 | Parent Evaluation | btn_parent_home_evaluation | db_parent_evaluation | child_id | screens/home.html > screens/evaluation-tasks.html |
+| 3 | 亲子任务 | Parent-Child Tasks | btn_parent_home_task | db_parent_task | child_id | screens/home.html > screens/parent-tasks.html |
+| 4 | 全部提醒 | All Reminders | btn_parent_home_reminder_all | db_parent_home | child_id | screens/home.html > screens/all-reminders.html |
+| 5 | 全部报告 | All Reports | btn_parent_home_report_all | db_parent_home | child_id | screens/home.html > screens/all-reports.html |
+| 6 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | screens/home.html |
 | 7 | 我的任务 | My Tasks | nav_parent_tasks | nav_parent_tasks | NULL | screens/evaluation-tasks.html |
 | 8 | 在园时光 | Kindergarten Moments | nav_parent_moments | nav_parent_moments | NULL | screens/kindergarten-moments.html |
 | 9 | 儿童档案 | Child Profile | nav_parent_child_profile | nav_parent_child_profile | NULL | screens/child-profile.html |
@@ -72,11 +72,11 @@ environment_isolation (环境隔离) = demo|test 数据不得复制到 productio
 |---|---|---|---|---|---|---|
 | 当前幼儿摘要 | Current Child Summary | parent_home_child_summary | db_school + db_child + db_class | child_id (context) | 0:1 | NONE |
 | 今日待办数量 | Today Reminder Count | parent_home_today_reminder_count | db_parent_home | child_id (context) | 1:1 | NONE |
-| 家长评价提醒卡片 | Parent Evaluation Reminder Card | parent_home_evaluation_reminder_card | db_parent_evaluation | parent_evaluation_id (runtime) | 0:k | home.html > screens/monthly-evaluation.html?parent_evaluation_id={parent_evaluation_id}&from=home |
-| 亲子任务提醒卡片 | Parent Task Reminder Card | parent_home_task_reminder_card | db_parent_task + db_parent_task_submission | parent_task_id (runtime) | 0:k | home.html > screens/parent-task-detail.html?parent_task_id={parent_task_id}&from=home |
-| 教师月度评价报告卡片 | Teacher Monthly Evaluation Report Card | parent_home_teacher_eval_report_card | db_month_eval | month_eval_id (runtime) | 0:k | home.html > screens/evaluation-history-detail.html?report_type=teacher_monthly&month_eval_id={month_eval_id}&from=home |
-| 家长评价报告卡片 | Parent Evaluation Report Card | parent_home_parent_eval_report_card | db_parent_evaluation | parent_evaluation_id (runtime) | 0:k | home.html > screens/evaluation-history-detail.html?report_type=parent&parent_evaluation_id={parent_evaluation_id}&from=home |
-| 成长档案报告卡片 | Growth Record Report Card | parent_home_growth_report_card | db_growth_record | growth_record_id (runtime) | 0:k | home.html > screens/evaluation-history-detail.html?report_type=growth&growth_record_id={growth_record_id}&from=home |
+| 家长评价提醒卡片 | Parent Evaluation Reminder Card | parent_home_evaluation_reminder_card | db_parent_evaluation | parent_evaluation_id (runtime) | 0:k | screens/home.html > screens/monthly-evaluation.html?parent_evaluation_id={parent_evaluation_id}&from=home |
+| 亲子任务提醒卡片 | Parent Task Reminder Card | parent_home_task_reminder_card | db_parent_task + db_parent_task_submission | parent_task_id (runtime) | 0:k | screens/home.html > screens/parent-task-detail.html?parent_task_id={parent_task_id}&from=home |
+| 教师月度评价报告卡片 | Teacher Monthly Evaluation Report Card | parent_home_teacher_eval_report_card | db_month_eval | month_eval_id (runtime) | 0:k | screens/home.html > screens/evaluation-history-detail.html?report_type=teacher_monthly&month_eval_id={month_eval_id}&from=home |
+| 家长评价报告卡片 | Parent Evaluation Report Card | parent_home_parent_eval_report_card | db_parent_evaluation | parent_evaluation_id (runtime) | 0:k | screens/home.html > screens/evaluation-history-detail.html?report_type=parent&parent_evaluation_id={parent_evaluation_id}&from=home |
+| 成长档案报告卡片 | Growth Record Report Card | parent_home_growth_report_card | db_growth_record | growth_record_id (runtime) | 0:k | screens/home.html > screens/evaluation-history-detail.html?report_type=growth&growth_record_id={growth_record_id}&from=home |
 
 dynamic_rule (动态规则) = 标题、类型、日期、发布者、状态、数量和所有 object_id 均来自当前幼儿授权范围内的接口结果；HTML 中的 slug/id 不得进入生产代码
 
@@ -177,12 +177,12 @@ Mock child_name|class_name|count|date|badge|status|report MUST NOT be returned i
 
 [NAV_OBJECTS]
 
-首页 (Home / nav_parent_home): node_key=nav_parent_home; object_ref=db_parent_home; route=home.html; persist=0; rel_count=0
+首页 (Home / nav_parent_home): node_key=nav_parent_home; object_ref=db_parent_home; route=screens/home.html; persist=0; rel_count=0
 我的任务 (My Tasks / nav_parent_tasks): node_key=nav_parent_tasks; object_ref=db_parent_task_home; route=screens/evaluation-tasks.html; persist=0; rel_count=0
 在园时光 (Kindergarten Moments / nav_parent_moments): node_key=nav_parent_moments; object_ref=db_parent_moment_home; route=screens/kindergarten-moments.html; persist=0; rel_count=0
 儿童档案 (Child Profile / nav_parent_child_profile): node_key=nav_parent_child_profile; object_ref=db_parent_child_profile_home; route=screens/child-profile.html; persist=0; rel_count=0
 切换孩子 (Switch Child / nav_parent_switch_child): node_key=nav_parent_switch_child; object_ref=db_parent_child; route=screens/switch-child.html; persist=0; rel_count=0
-route_resolution_rule (路由解析规则) = route 使用 App 根目录语义；screens 页面中的 ../home.html 与 home.html 解析为同一 nav_parent_home 目标
+route_resolution_rule (路由解析规则) = route 使用 App 根目录语义；screens 页面以同级 href=home.html 指向 nav_parent_home
 
 
 [JUMP_VALIDATION]

@@ -55,7 +55,7 @@ environment_isolation (环境隔离) = demo|test 数据不得复制到 productio
 | 3 | 全部 | All | btn_parent_tasks_filter_all | db_parent_task | task_filter=all | client filter only; route unchanged |
 | 4 | 日常亲子任务 | Daily Parent Task | btn_parent_tasks_filter_daily | db_parent_task | parent_task_type=t1 | client filter only; route unchanged |
 | 5 | 社区任务 | Community Task | btn_parent_tasks_filter_community | db_parent_task | parent_task_type=t2 | client filter only; route unchanged |
-| 6 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | ../home.html |
+| 6 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | home.html |
 | 7 | 我的任务 | My Tasks | nav_parent_tasks | nav_parent_tasks | NULL | evaluation-tasks.html |
 | 8 | 在园时光 | Kindergarten Moments | nav_parent_moments | nav_parent_moments | NULL | kindergarten-moments.html |
 | 9 | 儿童档案 | Child Profile | nav_parent_child_profile | nav_parent_child_profile | NULL | child-profile.html |

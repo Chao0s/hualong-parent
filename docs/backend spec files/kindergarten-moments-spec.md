@@ -51,7 +51,7 @@ environment_isolation (环境隔离) = demo|test 数据不得复制到 productio
 
 | n | button_name_cn | button_name_en | node_key | object | input | jump |
 |---:|---|---|---|---|---|---|
-| 1 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | ../home.html |
+| 1 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | home.html |
 | 2 | 我的任务 | My Tasks | nav_parent_tasks | nav_parent_tasks | NULL | evaluation-tasks.html |
 | 3 | 在园时光 | Kindergarten Moments | nav_parent_moments | nav_parent_moments | NULL | kindergarten-moments.html |
 | 4 | 儿童档案 | Child Profile | nav_parent_child_profile | nav_parent_child_profile | NULL | child-profile.html |
