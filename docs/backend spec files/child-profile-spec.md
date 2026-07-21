@@ -25,7 +25,7 @@ parent_child_profile_copy (家长端儿童档案副本表) = FORBIDDEN
 [CONTEXT_RULE]
 
 parent_id_source (家长ID来源) = auth_session.parent_id
-allowed_child_id_source (允许幼儿ID来源) = db_parent_child.child_id WHERE parent_id=auth_session.parent_id AND active=1
+allowed_child_id_source (允许幼儿ID来源) = db_parent_child.child_id WHERE parent_id=auth_session.parent_id AND is_active=1
 current_child_rule (当前幼儿校验) = current_child_id MUST IN allowed_child_id
 school_id_source (园所ID来源) = db_child.school_id
 class_id_source (班级ID来源) = db_child.class_id
@@ -101,9 +101,9 @@ object_type (对象类型) = aggregate
 
 method (方法):
 profile = db_child JOIN db_class WHERE child_id=current_child_id
-growth_record_status = latest authorized db_growth_record.record_status; IF missing, p0=not_started
-evaluation_report_status = derived from COUNT(db_month_eval WHERE eval_status=e3) + COUNT(db_parent_evaluation WHERE evaluation_status=p2); IF count=0, not_started
-growth_book_status = latest authorized db_growth_book.growth_book_status; IF missing, b0=not_started
+growth_record_status = MAP(latest authorized db_growth_record.record_status: c1->complete, c2->incomplete); IF missing, not_started (派生显示状态，非入库字段)
+evaluation_report_status = derived from COUNT(db_month_eval WHERE month_eval_status=e3) + COUNT(db_parent_evaluation WHERE evaluation_status=p2); IF count=0, not_started
+growth_book_status = MAP(latest authorized db_growth_book.book_eval_status: c1->complete, c2->incomplete); IF missing, not_started (派生显示状态，非入库字段)
 
 
 [CANONICAL_FIELD_EXTENSION]

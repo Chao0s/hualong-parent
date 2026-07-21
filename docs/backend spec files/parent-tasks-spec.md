@@ -23,7 +23,7 @@ rename_or_duplicate_shared_object (重命名或复制共享对象) = FORBIDDEN
 [CONTEXT_RULE]
 
 parent_id_source (家长ID来源) = auth_session.parent_id
-allowed_child_id_source (允许幼儿ID来源) = db_parent_child.child_id WHERE parent_id=auth_session.parent_id AND active=1
+allowed_child_id_source (允许幼儿ID来源) = db_parent_child.child_id WHERE parent_id=auth_session.parent_id AND is_active=1
 current_child_rule (当前幼儿校验) = current_child_id MUST IN allowed_child_id
 school_id_source (园所ID来源) = db_child.school_id
 class_id_source (班级ID来源) = db_child.class_id
@@ -91,9 +91,9 @@ object_type (对象类型) = aggregate
 
 method (方法):
 task_list = db_parent_task FILTER(school_id=current_school_id, class_id=current_class_id, publish_status=s2|s3) LEFT JOIN db_parent_task_submission ON parent_task_id AND child_id=current_child_id
-effective_submission_status = COALESCE(db_parent_task_submission.submission_status, p0=not_started)
-pending = effective_submission_status IN(p0,p1,p3) AND db_parent_task.publish_status=s2
-history = effective_submission_status=p2 OR db_parent_task.publish_status=s3
+effective_submission_status = COALESCE(db_parent_task_submission.submission_status, c2=incomplete)
+pending = effective_submission_status=c2 AND db_parent_task.publish_status=s2
+history = effective_submission_status=c1 OR db_parent_task.publish_status=s3
 task_filter=all returns all authorized rows
 task_filter=daily maps to parent_task_type=t1
 task_filter=community maps to parent_task_type=t2

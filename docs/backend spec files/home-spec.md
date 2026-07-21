@@ -27,7 +27,7 @@ rename_or_duplicate_shared_object (重命名或复制共享对象) = FORBIDDEN
 [CONTEXT_RULE]
 
 parent_id_source (家长ID来源) = auth_session.parent_id
-allowed_child_id_source (允许幼儿ID来源) = db_parent_child.child_id WHERE parent_id=auth_session.parent_id AND active=1
+allowed_child_id_source (允许幼儿ID来源) = db_parent_child.child_id WHERE parent_id=auth_session.parent_id AND is_active=1
 current_child_rule (当前幼儿校验) = current_child_id MUST IN allowed_child_id
 school_id_source (园所ID来源) = db_child.school_id WHERE child_id=current_child_id
 class_id_source (班级ID来源) = db_child.class_id WHERE child_id=current_child_id
@@ -116,9 +116,11 @@ IF no source row, corresponding list=[] AND count=0
 
 parent_id (家长ID), 1:1, integer, ui=context.hidden
 parent_name (家长姓名), 1:1, max_len=50, ui=parent.profile.name
-account_status (账号状态), 1:1, s1=active(启用)|s2=suspended(暂停)|s3=closed(关闭), ui=parent.hidden
+phone (联系电话), 0:1, phone, ui=parent.profile.phone
+parent_status (家长账号状态), 1:1, s1=active(启用)|s2=suspended(暂停)|s3=closed(注销), ui=parent.hidden
 
 rel_count (关系数量) = 0
+cross_app_rule (跨端规则) = db_parent 为家长端 canonical identity object；教师端与管理端仅 REUSE，不得重复定义或另建同义表；家长园所归属经 db_parent_child->db_child.school_id 派生，db_parent 不存 school_id
 
 
 家长幼儿关系 (Parent-Child Relation / db_parent_child)
@@ -126,13 +128,15 @@ rel_count (关系数量) = 0
 parent_child_id (家长幼儿关系ID), 1:1, integer, ui=context.hidden
 parent_id (家长ID), 1:1, integer, ui=context.hidden
 child_id (幼儿ID), 1:1, integer, ui=context.hidden
-relationship_role (监护关系), 1:1, r1=mother(母亲)|r2=father(父亲)|r3=guardian(监护人)|r4=other(其他), ui=parent_child.role
-active (是否有效), 1:1, boolean, ui=context.hidden
+relationship_type (监护关系), 1:1, r1=mother(母亲)|r2=father(父亲)|r3=grandparent(祖辈)|r4=guardian(监护人)|r5=other(其他), ui=parent_child.role
+is_primary_contact (是否主要联系人), 1:1, boolean, ui=parent_child.hidden
+is_active (是否有效), 1:1, boolean, ui=context.hidden
 
 rel_count (关系数量) = 2
 rel_db (关联表) = db_parent, db_child
 rel_map (关系字段) = db_parent_child{parent_id}<->db_parent{parent_id}; db_parent_child{child_id}<->db_child{child_id}
 unique (唯一键) = parent_id + child_id
+cross_app_rule (跨端规则) = db_parent_child 为家长端 canonical 定义；教师端与管理端仅 REUSE，不得重复定义
 
 
 家长评价 (Parent Evaluation / db_parent_evaluation)
@@ -158,6 +162,7 @@ rel_count (关系数量) = 6
 rel_db (关联表) = db_school, db_class, db_child, db_parent, db_teacher, db_file
 rel_map (关系字段) = db_parent_evaluation{school_id}<->db_school{school_id}; db_parent_evaluation{class_id}<->db_class{class_id}; db_parent_evaluation{child_id}<->db_child{child_id}; db_parent_evaluation{parent_id}<->db_parent{parent_id}; db_parent_evaluation{requested_by_teacher_id}<->db_teacher{teacher_id}; db_parent_evaluation{file_id}<->db_file{file_id}
 unique (唯一键) = child_id + evaluation_type + evaluation_period
+cross_app_rule (跨端规则) = db_parent_evaluation 为家长端 canonical 定义；教师端(05 home-school-spec.md)与管理端仅 REUSE；evaluation_status=p2 在教师端映射为完成(c1)
 
 
 [REUSED_OBJECT_USAGE]

@@ -24,7 +24,7 @@ rename_or_duplicate_shared_object (重命名或复制共享对象) = FORBIDDEN
 [CONTEXT_RULE]
 
 parent_id_source (家长ID来源) = auth_session.parent_id
-allowed_child_id_source (允许幼儿ID来源) = db_parent_child.child_id WHERE parent_id=auth_session.parent_id AND active=1
+allowed_child_id_source (允许幼儿ID来源) = db_parent_child.child_id WHERE parent_id=auth_session.parent_id AND is_active=1
 current_child_rule (当前幼儿校验) = current_child_id MUST IN allowed_child_id
 school_id_source (园所ID来源) = db_child.school_id
 class_id_source (班级ID来源) = db_child.class_id
@@ -88,10 +88,10 @@ persist (是否持久化) = 0
 object_type (对象类型) = aggregate
 
 method (方法):
-moment_list = db_moment FILTER(school_id=current_school_id, class_id=current_class_id, publish_status=p2) ORDER BY moment_date DESC
+moment_list = db_moment FILTER(school_id=current_school_id, class_id=current_class_id, publish_status=s2) ORDER BY moment_date DESC
 child_participation = LEFT JOIN db_moment_upload ON moment_id AND child_id=current_child_id
 weekly_update_count = COUNT(moment_list WHERE moment_date in current local week)
-participated_week_count = COUNT(DISTINCT moment_id WHERE db_moment_upload.child_id=current_child_id AND upload_status=u1 AND moment_date in current local week)
+participated_week_count = COUNT(DISTINCT moment_id WHERE EXISTS db_moment_upload(moment_id, child_id=current_child_id) AND moment_date in current local week)
 IF no moment row, moment_list=[] AND weekly_update_count=0 AND participated_week_count=0
 
 
@@ -122,6 +122,6 @@ nav_parent_home|nav_parent_tasks|nav_parent_moments|nav_parent_child_profile = R
 IF current_child_id NOT_IN allowed_child_id, return 403
 IF any moment query includes school_id != current_school_id OR class_id != current_class_id, return 403
 IF moment_id NOT_FOUND, return 404
-IF db_moment.publish_status=p1|deleted, return 403
+IF db_moment.publish_status=s1|deleted, return 403
 IF db_moment_upload.child_id != current_child_id, omit child-specific upload and do not disclose it
 client supplied parent_id|child_id|school_id|class_id MUST be ignored and re-derived from context
