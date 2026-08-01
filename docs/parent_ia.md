@@ -56,7 +56,7 @@ flowchart LR
     TabParent --> PTodo["待完成"]
     TabParent --> PDone["已完成（沉淀为可引用素材）"]
     PTodo --> PDetail["任务详情·查看要求"]
-    PDetail --> PSubmit["提交反馈<br/>图文/视频"]
+    PDetail --> PSubmit["提交反馈<br/>图文；视频是否开放【未定·D5】"]
 
     %% ========================================
     %% 在园时光（教师端家园共育推送）
@@ -77,7 +77,27 @@ flowchart LR
     ChildPushed --> EvalReport["评价/评估报告 → 全部报告"]
     EvalReport --> ReportSummary["综合评估报告<br/>五大领域雷达（5 分制）"]
     ChildPushed --> GrowthBook["成长册（学期成品）<br/>列表点开即展示完整内容"]
-    GrowthBook --> BookItems["内容章节<br/>园所介绍/在园时光/亲子活动/家长动态/发展评估/幼儿评语/体检数据"]
+    GrowthBook --> BookItems["内容章节·固定顺序 6 项<br/>园所介绍/在园时光/亲子活动/期末评估/综合评估/教师寄语"]
+    GrowthBook --> BookCustom["教师新增栏目<br/>按 anchor_after 插在预设 6 项之间"]
+
+    %% ========================================
+    %% 成长册素材征集（教师新增栏目 → 家长端待办）
+    %% 入口挂在哪个一级导航【未定】，见下方「成长册素材征集（待建）」
+    %% ========================================
+    BookMaterial["成长册素材征集<br/>一个新增栏目 = 一则待办"]
+    BookMaterial --> BMList["素材征集待办列表<br/>growth-book-materials.html（待建）"]
+    BMList --> BMSection["某栏目待办<br/>列出该栏目全部页面上的 collected 槽位"]
+    BMSection --> BMSubmit["槽位提交<br/>growth-book-material-submit.html（待建）"]
+    BMSubmit --> BMPhoto["图片槽位<br/>按 grid_w:grid_h 裁剪·一次性不可回改"]
+    BMSubmit --> BMText["文字槽位<br/>字数上限由框的大小推导"]
+    BMSubmit --> BMFull["一次交完<br/>全部槽位都有内容才算齐备"]
+    BMList --> BMWithdraw["征集已撤回<br/>该栏目提交一并删除·需重新提交"]
+    BookCustom -. 版面槽位来源 .-> BookMaterial
+
+    %% 候选入口三条，来自不同文件且未由 DECISIONS.md 拍板
+    GrowthBook -. 候选入口·未定 .-> BookMaterial
+    EntryTodo -. 候选入口·未定 .-> BookMaterial
+    NavTask -. 候选入口·未定 .-> BookMaterial
 
     %% ========================================
     %% 数据流：素材逐级汇聚（虚线引用关系）
@@ -96,3 +116,22 @@ flowchart LR
 | 儿童档案 | `screens/child-profile.html` | 基础信息 + 成长档案/报告/成长册入口 |
 
 详情页与填写页（评价填写、任务详情、历史详情、切换孩子）不带底部导航，使用返回键；跨入口进入的详情页通过 `?from=` 参数动态回退。
+
+## 成长册内容章节
+
+`DECISIONS.md` E3 定内容组成为 6 项，顺序固定，家长端不可改、教师端也不提供整体拖拽排序：园所介绍（intro）→ 在园时光（time）→ 亲子活动（task）→ 期末评估（term）→ 综合评估（comp）→ 教师寄语（message）。相对旧版：删「家长动态」（家长评价仍在我的任务一线，不再进成长册），「发展评估」拆成期末评估与综合评估，「幼儿评语」更名教师寄语并改读 `db_teacher_message`；体检数据 B12 已砍，维持不变。哪几项启用由班级模版 `db_growth_book_template.enabled_sections` 决定，教师新增的栏目按 `anchor_after` 插在预设项之间。
+
+## 成长册素材征集（待建）
+
+`DECISIONS.md` E3 之下的 W15 定：教师新增的一个成长册栏目 = 家长端一则待办，点进去列出该栏目所有页面上的全部 `collected` 槽位，一次交完；不按 widget 发、也不按页发。齐备判定是该栏目全部槽位都有内容，不是至少交一件。征集不设时限、无逾期态，未交的槽位教师可代传；教师撤回征集时该栏目已收的提交一并删除，家长需重新提交。对应的 `screens/growth-book-materials.html` 与 `screens/growth-book-material-submit.html` 尚未建立，节点与字段定义见 [成长册规格](backend%20spec%20files/growth-book-spec.md)。
+
+**入口挂在四个一级导航中的哪一个【未定】。** 现有两处来源不一致，`DECISIONS.md` 与 `db/GAPS.md` 均未正面拍板，实现前须先问，不得默默择一：
+
+| 来源 | 主张的入口 |
+| --- | --- |
+| `docs/backend spec files/growth-book-spec.md` 静态节点 4 | 儿童档案 → 成长册 → 素材征集待办 |
+| `decision.md` §1 所列页面 | 首页待办提醒 / 全部待办提醒 / 我的任务 |
+
+## 视频入口
+
+成长册的 widget 只有图片与文字两型，不做视频（W7），素材征集槽位同此。亲子任务提交页现存的「视频」入口不受 W7 约束，但视频在 v1 是否先在 UI 层禁止上传属 `DECISIONS.md` D5 的未拍板项（内容把关的覆盖范围与落点），图中已按未定标注，实现前不得自行开放或关闭。

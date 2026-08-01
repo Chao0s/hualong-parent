@@ -105,6 +105,8 @@ db_parent_task = REUSE Teacher/05 home-school-spec.md; same teacher-issued recor
 db_parent_task_submission = REUSE Teacher/05 home-school-spec.md; same child submission is created/updated here and read by Teacher App
 db_school|db_class|db_child|db_file = REUSE Teacher canonical definitions
 db_parent|db_parent_child|db_parent_evaluation = REUSE Parent/home-spec.md
+db_book_material_submission = NOT_IN_SCOPE。成长册素材征集不是亲子任务：它不在 db_parent_task 一系，不进本页的待完成/历史列表，也不受 task_filter 影响；对象与流程见 Parent/growth-book-spec.md
+task_type_filter_note (任务类型筛选说明) = 本页 daily->t1 / community->t2 的映射与 DECISIONS.md E5 一致；社区共育不是独立实体，是 db_parent_task + db_parent_task_submission 的 feed 视图（B11 已拔除 db_community_submission），筛选一律走 db_parent_task.parent_task_type
 
 
 [EMPTY_STATE]

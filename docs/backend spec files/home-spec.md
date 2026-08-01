@@ -109,6 +109,10 @@ report_list = published db_month_eval UNION completed db_parent_evaluation UNION
 today_reminder_count = COUNT(reminder_list WHERE due_at falls in current local day)
 IF no source row, corresponding list=[] AND count=0
 
+material_request_reminder (成长册素材征集待办是否进首页提醒) = 未定。DECISIONS.md W15 只定「一个新增栏目 = 家长端一则待办」，未指定它出现在 home.html 的提醒流还是只在 growth-book-materials.html；在拍板前 reminder_list 不含它。另注：素材征集无 due_at、无逾期状态（E3 第 4 点），即使日后并入也进不了 today_reminder_count 的现有算式
+teacher_message_report (教师寄语是否进首页报告流) = 未定。DECISIONS.md E1 只定教师端的写入与聚合页，家长端唯一已定的读取面是成长册 message 栏目（见 Parent/growth-book-spec.md）；在拍板前 report_list 不含它
+comprehensive_assessment_report (综合评估是否进首页报告流) = 未定，同上。家长端已定的展示面是 evaluation-report.html 与成长册 comp 栏目；若日后并入，必须遵守「雷达图渲染时算、不存档，未评领域回该领域尚无评分而非 0」（E2/W12）
+
 
 [CONTENT_OBJECTS]
 
@@ -169,6 +173,8 @@ cross_app_rule (跨端规则) = db_parent_evaluation 为家长端 canonical 定�
 
 db_school|db_teacher|db_class|db_child|db_file = REUSE Teacher/01 home-spec.md and Teacher/05 home-school-spec.md
 db_parent_task|db_parent_task_submission|db_month_eval|db_growth_record = REUSE Teacher/05 home-school-spec.md and Teacher/01 home-spec.md
+db_book_material_submission = 家长端 canonical 定义在 Parent/growth-book-spec.md（DECISIONS.md E3 新增对象，写入面在家长端，教师代传写同一张表）；本文件不重复定义
+db_teacher_message|db_growth_book_template|db_growth_book_section|db_book_widget|db_growth_material|db_child_assessment_item = REUSE Teacher/05 home-school-spec.md（E1/E2/E3 新增对象）；家长端只读，读取规则见 Parent/growth-book-spec.md
 shared_schema_redefinition (共享 schema 重复定义) = NONE
 
 
