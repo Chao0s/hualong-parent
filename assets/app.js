@@ -89,8 +89,11 @@ function bindMatrixFilters() {
 const BACK_TARGETS = {
   home: "home.html",
   tasks: "evaluation-tasks.html",
-  "parent-tasks": "parent-tasks.html",
+  "home-school": "home-school.html",
+  activities: "all-activities.html",
+  "all-reminders": "all-reminders.html",
   "all-reports": "all-reports.html",
+  "book-materials": "growth-book-materials.html",
   report: "evaluation-report.html",
   profile: "child-profile.html"
 };
@@ -356,8 +359,55 @@ const PARENT_TASKS = {
       { label: "观察", tone: "blue" },
       { label: "记录", tone: "green" }
     ]
+  },
+  "history-market": {
+    pageTitle: "历史任务",
+    status: "已完成",
+    statusClass: "done",
+    mode: "history",
+    name: "跟着家人去买菜",
+    share: "小雨跟着外婆去了菜市场，认出了自己爱吃的青菜和番茄。她记得要先问价钱再付钱，回家后把买到的菜按颜色排成一排给我们看。",
+    photos: [
+      { label: "菜档", tone: "warn" },
+      { label: "挑菜", tone: "green" },
+      { label: "分类", tone: "blue" }
+    ]
   }
 };
+
+/* 全部活动：本家庭提交过的全部亲子任务 / 社区任务图文，按提交时间倒序 */
+const PARENT_SUBMISSIONS = [
+  {
+    id: "history-bedtime", task: "睡前共读记录", date: "2026.06.08", type: "daily", typeName: "日常亲子任务", icon: "读",
+    share: "小雨今天选择了《好饿的毛毛虫》。她会主动翻到自己喜欢的页面，说毛毛虫吃了好多水果，还提醒妈妈读到星期六要慢一点。",
+    photos: [{ label: "共读 1", tone: "green" }, { label: "共读 2", tone: "green" }, { label: "整理", tone: "warn" }]
+  },
+  {
+    id: "history-community", task: "小区里的植物朋友", date: "2026.05.19", type: "community", typeName: "社区任务", icon: "社",
+    share: "周末散步时，小雨在楼下花坛发现了新开的紫色小花。她说花瓣像小扇子，还主动提醒我们不要踩到旁边的小苗。",
+    photos: [{ label: "观察", tone: "blue" }, { label: "记录", tone: "green" }]
+  },
+  {
+    id: "history-market", task: "跟着家人去买菜", date: "2026.04.21", type: "community", typeName: "社区任务", icon: "社",
+    share: "小雨跟着外婆去了菜市场，认出了自己爱吃的青菜和番茄。她记得要先问价钱再付钱，回家后把买到的菜按颜色排成一排。",
+    photos: [{ label: "菜档", tone: "warn" }, { label: "挑菜", tone: "green" }, { label: "分类", tone: "blue" }]
+  },
+  {
+    id: "history-tableware", task: "自己整理餐具", date: "2026.03.30", type: "daily", typeName: "日常亲子任务", icon: "亲",
+    share: "吃完饭小雨主动把自己的碗和勺子放回水池，还想帮妹妹一起收。我们只在旁边提醒她小心热水。",
+    photos: [{ label: "餐具", tone: "warn" }]
+  },
+  {
+    id: "history-museum", task: "周末博物馆之行", date: "2026.03.08", type: "daily", typeName: "日常亲子任务", icon: "亲",
+    share: "在博物馆里小雨最喜欢老照片那一区，说“这些房子和留耕堂有点像”。她自己选了一张最喜欢的展品拍照。",
+    photos: [{ label: "展厅", tone: "blue" }, { label: "展品", tone: "green" }]
+  },
+  {
+    id: "history-planting", task: "家庭种植角观察", date: "2026.02.15", type: "daily", typeName: "日常亲子任务", icon: "亲",
+    share: "阳台上的绿豆冒芽了，小雨每天早上都要去看一次，还用尺子比一比有没有变高，说要记下来带去幼儿园讲。",
+    photos: [{ label: "发芽", tone: "green" }, { label: "测量", tone: "warn" }]
+  }
+];
 
 /* 过往相片素材库：来源标签对应 IA 的“亲子任务图文 / 社区任务图文” */
 const PHOTO_LIBRARY = {
@@ -497,51 +547,9 @@ const GROWTH_BOOKS = {
         photos: []
       }
     ]
-  },
-  "middle-1": {
-    title: "中班上学期成长册",
-    term: "2025 秋季学期",
-    status: "生成中",
-    statusClass: "warn",
-    intro: "本学期内容教师整理中：亲子任务反馈与幼儿评语补齐后，将呈现完整成长册。以下为已归档内容。",
-    sections: [
-      {
-        name: "园所介绍",
-        copy: "中班围绕“住”与“行”开展社区主题课程，孩子们走进留耕堂等社区场所进行实地观察。",
-        photos: [{ label: "社区", tone: "green" }, { label: "课程", tone: "blue" }]
-      },
-      {
-        name: "在园时光",
-        copy: "已参与班级活动 12 次。小雨在社区观察和积木搭建活动中表现出较强的观察力与合作意识。",
-        photos: [{ label: "观察", tone: "green" }, { label: "积木", tone: "warn" }, { label: "合作", tone: "blue" }]
-      },
-      {
-        name: "亲子活动",
-        copy: "已完成 5 次亲子任务，还有 1 条家庭反馈待提交（社区任务：留耕堂门前的石阶）。",
-        photos: [{ label: "共读", tone: "green" }, { label: "植物", tone: "blue" }]
-      },
-      {
-        name: "家长动态",
-        copy: "家长月度评语摘录：“会把故事里的角色和白天在幼儿园发生的事情联系起来。”",
-        photos: []
-      },
-      {
-        name: "发展评估",
-        copy: "2025 年度综合评价已推送：表达主动性、生活自理和活动参与形成稳定的发展轨迹。",
-        photos: [{ label: "雷达", tone: "blue" }]
-      },
-      {
-        name: "幼儿评语",
-        copy: "教师撰写中，学期结束前更新。",
-        photos: []
-      },
-      {
-        name: "体检数据",
-        copy: "身高 110cm，体重 18.0kg，视力正常，保健室已同步秋季体检结果。",
-        photos: []
-      }
-    ]
   }
+  /* 本学期（中班上学期）成长册在素材征集阶段尚不存在，不在此列——
+     一学期只有一本，素材没收齐就没有册子可看（decision.md §11） */
 };
 
 /* ========== 动态渲染 ========== */
@@ -569,41 +577,246 @@ function renderPhotoPickers() {
   });
 }
 
-/* 成长册：解析 ?book=，直接渲染完整内容章节 */
+/* 成长册素材通道：与教师端 growth-book-render.js 共用同一份 localStorage 结构
+   （store key 与 material 条目形状一致）。家长推荐与教师挑选都往这里写，
+   同一条提交按 id 天然去重，成册时合并——见 decision.md 第 9 条。 */
+const BOOK_STORE_KEY = "hualong.growth-book.v1";
+const BOOK_ORDER = ["intro", "time", "task", "term", "comp", "message"];
+
+function readBookConfig() {
+  let saved = {};
+  try {
+    saved = JSON.parse(localStorage.getItem(BOOK_STORE_KEY)) || {};
+  } catch (e) {}
+  /* selected 必须存在：教师端以它判断整份配置是否有效，缺了会整份丢弃 */
+  if (!Array.isArray(saved.selected)) saved.selected = BOOK_ORDER.slice();
+  if (!Array.isArray(saved.material)) saved.material = [];
+  return saved;
+}
+
+function writeBookConfig(config) {
+  try {
+    localStorage.setItem(BOOK_STORE_KEY, JSON.stringify(config));
+  } catch (e) {}
+}
+
+/* 全部活动：本家庭提交流（时间倒序）+ 逐条「加入成长册」
+   交互对齐教师端 home-school-moment-feed.html：点按钮先开抽屉选片，确定后才写入。
+   文字整段随附、不可拆；照片在抽屉里逐张勾选，一张不选即为移出。 */
+function bindActivityFeed() {
+  const feed = document.querySelector("[data-activity-feed]");
+  if (!feed) return;
+
+  const config = readBookConfig();
+  const sheet = document.querySelector("[data-pick-sheet]");
+  const grid = sheet.querySelector("[data-pick-grid]");
+  const title = sheet.querySelector("[data-pick-title]");
+  const confirm = sheet.querySelector("[data-pick-confirm]");
+  let current = null;   // 当前正在选片的卡片
+
+  feed.innerHTML = PARENT_SUBMISSIONS.map((record) => `
+    <article class="card eval-detail-card" data-activity="${record.id}" data-filter-item="all ${record.type}">
+      <div class="eval-history-head">
+        <div class="row-main">
+          <span class="icon">${record.icon}</span>
+          <div class="row-text"><h3>${record.task}</h3><p>${record.typeName} · ${record.date} 提交</p></div>
+        </div>
+        <span class="status done">已完成</span>
+      </div>
+      <div class="eval-copy"><p>${record.share}</p></div>
+      <div class="eval-photo-grid" style="--photo-cols:${Math.min(3, record.photos.length)};">
+        ${record.photos.map((photo) => `<div class="eval-photo ${photo.tone}">${photo.label}</div>`).join("")}
+      </div>
+      <button class="add-material" data-add-material>+ 加入成长册</button>
+    </article>`).join("");
+
+  const cards = feed.querySelectorAll("[data-activity]");
+  const findEntry = (id) => config.material.find((item) => item.id === id);
+
+  const syncCards = () => {
+    cards.forEach((card) => {
+      const entry = findEntry(card.dataset.activity);
+      const button = card.querySelector("[data-add-material]");
+      button.classList.toggle("on", !!entry);
+      button.textContent = entry ? `已加入（${entry.photos.length} 张）` : "+ 加入成长册";
+      button.title = entry ? "已加入成长册，点击可调整" : "加入成长册";
+    });
+  };
+
+  const picked = () =>
+    Array.from(grid.querySelectorAll(".record-photo.selected")).map((label) => label.dataset.photoLabel);
+
+  /* 一张不选 = 移出；只有已加入的条目才需要「移出」这个说法 */
+  const syncConfirm = () => {
+    const count = picked().length;
+    confirm.textContent = count ? `加入（${count}）` : (findEntry(current.dataset.activity) ? "移出成长册" : "加入");
+  };
+
+  const openSheet = (card) => {
+    current = card;
+    const record = PARENT_SUBMISSIONS.find((item) => item.id === card.dataset.activity);
+    const entry = findEntry(record.id);
+    title.textContent = entry ? "调整收录照片" : "加入成长册";
+    /* 未加入过默认全选，已加入则回填上次的选择 */
+    grid.innerHTML = record.photos.map((photo) => {
+      const on = entry ? entry.photos.includes(photo.label) : true;
+      return `
+        <label class="record-photo${on ? " selected" : ""}" data-photo-label="${photo.label}">
+          <input type="checkbox" ${on ? "checked" : ""} aria-label="收录照片：${photo.label}">
+          <span class="photo-thumb ${photo.tone}">${photo.label}</span>
+        </label>`;
+    }).join("");
+    syncConfirm();
+    sheet.hidden = false;
+  };
+
+  const closeSheet = () => {
+    sheet.hidden = true;
+    current = null;
+  };
+
+  grid.addEventListener("change", (event) => {
+    const label = event.target.closest(".record-photo");
+    if (!label) return;
+    label.classList.toggle("selected", event.target.checked);
+    syncConfirm();
+  });
+
+  sheet.querySelectorAll("[data-pick-close]").forEach((node) => {
+    node.addEventListener("click", closeSheet);
+  });
+
+  confirm.addEventListener("click", () => {
+    const record = PARENT_SUBMISSIONS.find((item) => item.id === current.dataset.activity);
+    const photos = picked();
+    config.material = config.material.filter((item) => item.id !== record.id);
+    if (photos.length) {
+      config.material.push({
+        id: record.id,
+        title: record.task,
+        date: record.date,
+        text: record.share,      // 文字不可拆，整段进册
+        photos: photos,
+        source: "parent"
+      });
+      showToast(`已加入成长册（${photos.length} 张）`);
+    } else {
+      showToast("已移出成长册");
+    }
+    writeBookConfig(config);
+    closeSheet();
+    syncCards();
+  });
+
+  cards.forEach((card) => {
+    card.querySelector("[data-add-material]").addEventListener("click", () => openSheet(card));
+  });
+
+  syncCards();
+}
+
+/* 成长册书页构建：封面 + 各栏目一页 + 封底（视觉对齐教师端 growth-book-sample.html） */
+function buildBookPages(data) {
+  const pages = [`
+    <div class="page cover">
+      <div class="page-body">
+        <div class="cover-text">
+          <div class="page-kicker">GROWTH BOOK</div>
+          <h1>小雨<br>的成长册</h1>
+          <div class="sub">${data.term} · 中一班<br>化龙幼儿园</div>
+        </div>
+        <div class="cover-photo">封面图片</div>
+      </div>
+      <div class="page-foot"><span>封面</span><span>化龙幼儿园</span></div>
+    </div>`];
+
+  data.sections.forEach((section, index) => {
+    pages.push(`
+      <div class="page">
+        <div class="page-body">
+          <div class="page-kicker">${String(index + 1).padStart(2, "0")}</div>
+          <div class="page-title">${section.name}</div>
+          <p class="page-text">${section.copy}</p>
+          ${section.photos.length ? `
+          <div class="eval-photo-grid" style="--photo-cols:${Math.min(3, section.photos.length)}; margin-top:12px;">
+            ${section.photos.map((photo) => `<div class="eval-photo ${photo.tone}">${photo.label}</div>`).join("")}
+          </div>` : ""}
+        </div>
+        <div class="page-foot"><span>小雨 · ${data.title}</span><span>${index + 2}</span></div>
+      </div>`);
+  });
+
+  pages.push(`
+    <div class="page back-cover">
+      <div class="page-body" style="display:grid;place-items:center;text-align:center;">
+        <div>
+          <div class="page-title" style="color:var(--accent-deep);">愿你带着好奇，继续长大</div>
+          <p class="page-text">化龙幼儿园 · 中一班</p>
+        </div>
+      </div>
+      <div class="page-foot"><span>封底</span><span></span></div>
+    </div>`);
+  return pages;
+}
+
+/* 成长册：默认书架模式（征集期本学期无册，只列历史册）；?book= 时渲染可翻页书本 */
 function bindGrowthBook() {
   const root = document.querySelector("[data-growth-book]");
   if (!root) return;
 
-  const id = new URLSearchParams(window.location.search).get("book") || "middle-1";
-  const data = GROWTH_BOOKS[id] || GROWTH_BOOKS["middle-1"];
+  const id = new URLSearchParams(window.location.search).get("book");
+  const data = id && GROWTH_BOOKS[id];
+  if (!data) return;   // 书架模式：静态 HTML 即全部内容
 
-  const titles = root.querySelectorAll("[data-book-title]");
+  const shelf = root.querySelector("[data-book-shelf]");
+  const view = root.querySelector("[data-book-view]");
+  const back = root.querySelector("[data-book-back]");
+  if (shelf) shelf.hidden = true;
+  if (view) view.hidden = false;
+  if (back) back.href = "growth-book.html";   // 册内返回书架，而不是儿童档案
+
+  root.querySelectorAll("[data-book-title]").forEach((el) => { el.textContent = data.title; });
   const term = root.querySelector("[data-book-term]");
-  const status = root.querySelector("[data-book-status]");
-  const intro = root.querySelector("[data-book-intro]");
-  const sections = root.querySelector("[data-book-sections]");
-
-  titles.forEach((el) => { el.textContent = data.title; });
   if (term) term.textContent = `${data.term} · 小雨`;
+  const status = root.querySelector("[data-book-status]");
   if (status) {
+    status.hidden = false;
     status.textContent = data.status;
     status.className = `status ${data.statusClass}`;
   }
-  if (intro) intro.textContent = data.intro;
-  if (sections) {
-    sections.innerHTML = data.sections.map((section) => `
-      <article class="card eval-detail-card">
-        <div class="eval-history-head">
-          <div><h2>${section.name}</h2></div>
-          <span class="icon">${section.name.slice(0, 1)}</span>
-        </div>
-        <div class="eval-copy"><p>${section.copy}</p></div>
-        ${section.photos.length ? `
-        <div class="eval-photo-grid" style="--photo-cols:${Math.min(3, section.photos.length)};">
-          ${section.photos.map((photo) => `<div class="eval-photo ${photo.tone}">${photo.label}</div>`).join("")}
-        </div>` : ""}
-      </article>`).join("");
-  }
+
+  /* 翻页控制：已翻过的页绕左边缘翻开并压低层级，未翻的页倒序堆叠 */
+  const book = root.querySelector("[data-book-pages]");
+  const indicator = root.querySelector("[data-book-indicator]");
+  const prev = root.querySelector("[data-book-prev]");
+  const next = root.querySelector("[data-book-next]");
+  book.innerHTML = buildBookPages(data).join("");
+  const pages = Array.from(book.querySelectorAll(".page"));
+  let pageIndex = 0;
+
+  const sync = () => {
+    pages.forEach((page, i) => {
+      const flipped = i < pageIndex;
+      page.classList.toggle("flipped", flipped);
+      page.style.zIndex = flipped ? i : pages.length - i;
+    });
+    indicator.textContent = `${pageIndex + 1} / ${pages.length}`;
+    prev.disabled = pageIndex === 0;
+    next.disabled = pageIndex === pages.length - 1;
+  };
+  const turn = (step) => {
+    const target = pageIndex + step;
+    if (target < 0 || target >= pages.length) return;
+    pageIndex = target;
+    sync();
+  };
+
+  pages.forEach((page, i) => {
+    page.addEventListener("click", () => turn(i < pageIndex ? -1 : 1));
+  });
+  prev.addEventListener("click", () => turn(-1));
+  next.addEventListener("click", () => turn(1));
+  sync();
 }
 
 /* 五大领域雷达图（SVG）：孩子 vs 班级平均，色板取自项目图表规范 */
@@ -748,6 +961,7 @@ function bindHistoryDetail() {
 document.addEventListener("DOMContentLoaded", () => {
   bindTabs();
   bindSelectableButtons();
+  bindActivityFeed();   // 必须在 bindTokenFilters 之前：筛选在绑定时就抓取 [data-filter-item]
   bindTokenFilters();
   bindMatrixFilters();
   bindDynamicBack();

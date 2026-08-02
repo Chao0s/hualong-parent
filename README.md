@@ -8,12 +8,12 @@
 
 家长端围绕四类核心需求设计：
 
-- 查看家长评价、亲子任务和待办提醒；
+- 查看家长评价、家园共育任务和待办提醒；
 - 完成教师发起的成长册素材征集（独立于亲子任务的一类待办，按栏目一次交完，上传时按槽位比例裁剪）；
 - 浏览教师发布的班级在园时光；
-- 查看和维护授权幼儿的基础资料、成长档案、评价报告与成长册（家长端单本成长册的 PDF 在家长手机上生成并分享给亲友，不从服务器下载；教师端的全班批量导出是另一条路径，由服务器用 node-canvas 跑同一份绘图代码，见 `DECISIONS.md` W20）。
+- 查看和维护授权幼儿的基础资料、评估报告与成长册（家长端单本成长册的 PDF 在家长手机上生成并分享给亲友，不从服务器下载；教师端的全班批量导出是另一条路径，由服务器用 node-canvas 跑同一份绘图代码，见 `DECISIONS.md` W20）。
 
-底部一级导航为：首页、我的任务、在园时光、儿童档案。多孩家庭可以在首页切换当前幼儿；所有业务数据均应按登录家长与当前幼儿的授权关系查询。
+底部一级导航为：首页、家园共育、在园时光、儿童档案。多孩家庭可以在首页切换当前幼儿；所有业务数据均应按登录家长与当前幼儿的授权关系查询。
 
 ## 预览入口
 
@@ -40,17 +40,19 @@ npx serve
 ├── assets/
 │   ├── app.css                        # 全局样式与设计 token
 │   └── app.js                         # 页面交互脚本
-├── screens/                           # 15 个一级、功能与详情页面
+├── screens/                           # 17 个一级、功能与详情页面
 │   ├── home.html                      # 家长端首页
-│   ├── evaluation-tasks.html          # 我的任务 · 家长评价
+│   ├── evaluation-tasks.html          # 家园共育 · 家长评价（第二个标签）
 │   ├── monthly-evaluation.html        # 月度评价填写
 │   ├── term-evaluation.html           # 学期评价填写
-│   ├── parent-tasks.html              # 亲子任务列表
+│   ├── home-school.html               # 家园共育 · 亲子任务（原 parent-tasks.html，一级导航默认首屏）
 │   ├── parent-task-detail.html        # 亲子任务详情与提交
+│   ├── all-activities.html            # 全部活动（本家庭提交流 · 加入成长册）
 │   ├── kindergarten-moments.html      # 在园时光
 │   ├── child-profile.html             # 儿童档案
-│   ├── growth-record.html             # 成长档案
-│   ├── growth-book.html               # 成长册
+│   ├── growth-book.html               # 成长册（书架：历史册 + 素材征集入口）
+│   ├── growth-book-materials.html     # 成长册素材征集列表
+│   ├── growth-book-material-submit.html # 素材征集提交（槽位裁剪 · 全满才可交）
 │   ├── evaluation-report.html         # 评价报告
 │   ├── evaluation-history-detail.html # 历史评价详情
 │   ├── all-reminders.html             # 全部待办提醒
@@ -71,10 +73,10 @@ npx serve
 当前后台规格共五份：
 
 - [首页规格](docs/backend%20spec%20files/home-spec.md)
-- [亲子任务规格](docs/backend%20spec%20files/parent-tasks-spec.md)
+- [家园共育规格](docs/backend%20spec%20files/parent-tasks-spec.md)：对应 `screens/home-school.html`（页面已改名，spec 文件名保留，避免与教师端 `Teacher/05 home-school-spec.md` 的 REUSE 引用混淆）
 - [在园时光规格](docs/backend%20spec%20files/kindergarten-moments-spec.md)
 - [儿童档案规格](docs/backend%20spec%20files/child-profile-spec.md)
-- [成长册规格](docs/backend%20spec%20files/growth-book-spec.md)：成长册查看 + 成长册素材征集。后者的两个页面 `screens/growth-book-materials.html`、`screens/growth-book-material-submit.html` 尚未建立，spec 先定名与 `ui=` 标注
+- [成长册规格](docs/backend%20spec%20files/growth-book-spec.md)：成长册查看 + 成长册素材征集。后者的两个页面已建立（触达走首页待办、归属挂成长册页内，见 `decision.md` 第 10 条）
 
 规格遵循以下跨 App 原则：
 

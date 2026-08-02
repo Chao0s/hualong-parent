@@ -754,6 +754,116 @@ h1, h2, h3, p { margin: 0; }
   font-size: 13px;
 }
 .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+/* 成长册书本视图：翻页交互，视觉对齐教师端 growth-book-sample.html（growth-book-viewer.css） */
+.book { position: relative; height: 452px; margin-bottom: 10px; perspective: 1600px; }
+.book .page {
+  position: absolute; inset: 0;
+  background: var(--surface); border-radius: 12px;
+  transform-origin: left center; transform-style: preserve-3d;
+  transition: transform .58s cubic-bezier(.3,.5,.3,1);
+  box-shadow: 0 10px 26px rgba(26, 25, 22, .16);
+  overflow: hidden; display: flex; flex-direction: column;
+  cursor: pointer;
+}
+.book .page.flipped { transform: rotateY(-172deg); }
+.book .page::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 12px;
+  background: linear-gradient(90deg, rgba(0,0,0,.10), rgba(0,0,0,0));
+}
+.page-body { flex: 1; padding: 20px 18px 16px 26px; overflow: hidden; }
+.page-foot {
+  padding: 8px 18px 12px 26px; font-size: 10px; color: var(--muted);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.page-kicker { font-size: 10px; letter-spacing: .14em; color: var(--accent); font-weight: 700; }
+.page-title { font-size: 19px; font-weight: 800; margin: 6px 0 12px; }
+.page-text { font-size: 12px; line-height: 1.75; color: #444; }
+.book .cover { background: linear-gradient(150deg, #0f766e, #189b91 55%, #47bcb3); color: #fff; }
+.book .cover h1 { font-size: 26px; line-height: 1.2; }
+.book .cover .sub { font-size: 12px; opacity: .9; margin-top: 8px; line-height: 1.6; }
+.book .cover .page-kicker { color: rgba(255,255,255,.85); }
+.book .cover .page-foot { color: rgba(255,255,255,.75); }
+.book .cover .page-body { display: flex; flex-direction: column; gap: 14px; }
+.cover-photo {
+  flex: 1; border-radius: 10px; background: rgba(255,255,255,.18);
+  display: grid; place-items: center; font-size: 11px; color: rgba(255,255,255,.9);
+}
+.book .back-cover { background: linear-gradient(150deg, var(--accent-soft), var(--bg)); }
+.book-controls { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: 10px; }
+.nav-btn {
+  height: 40px; border: 1px solid var(--border); background: var(--surface);
+  border-radius: 12px; font-size: 18px; color: var(--fg); cursor: pointer;
+}
+.nav-btn:disabled { opacity: .38; cursor: default; }
+.page-indicator { text-align: center; font-size: 12px; color: var(--muted); font-weight: 600; }
+/* 素材征集提交页：槽位与裁剪示意（比例吃槽位的 grid_w:grid_h） */
+.slot-photo {
+  width: 100%;
+  aspect-ratio: var(--slot-ratio, 3/2);
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 13px;
+}
+.slot-photo.uploaded {
+  border-style: solid;
+  border-color: rgba(224, 100, 31, .5);
+  color: #b8600b;
+  background: var(--warn-soft);
+}
+.slot-photo.filled {
+  border-style: solid;
+  border-color: transparent;
+  color: #fff;
+  background-color: var(--accent-deep);
+  background-size: cover;
+  background-position: center;
+  align-content: end;
+  justify-content: start;
+  padding: 8px;
+}
+.slot-chip {
+  background: rgba(26, 25, 22, .55);
+  color: #fff;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.crop-stage {
+  display: grid;
+  place-items: center;
+  background: #1a1916;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+.crop-stage canvas {
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, .7);
+  cursor: grab;
+  touch-action: none;
+  max-width: 100%;
+}
+.crop-stage canvas:active { cursor: grabbing; }
+/* 加入成长册：与教师端「+ 加入成长册」同形，选中态填充主色 */
+.add-material {
+  justify-self: start;
+  border: 1px solid var(--accent);
+  background: var(--surface);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.add-material.on { background: var(--accent); border-color: var(--accent); color: #fff; }
 .toast {
   position: fixed;
   left: 50%;
@@ -782,7 +892,7 @@ h1, h2, h3, p { margin: 0; }
   background: rgba(255,255,255,.5);
   padding: 20px;
 }
-/* 底部常驻导航：首页 / 我的任务 / 在园时光 / 儿童档案 */
+/* 底部常驻导航：首页 / 家园共育 / 在园时光 / 儿童档案 */
 .tabbar {
   position: absolute;
   left: 0;

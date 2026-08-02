@@ -57,11 +57,11 @@ environment_isolation (环境隔离) = demo|test 数据不得复制到 productio
 |---:|---|---|---|---|---|---|
 | 1 | 切换孩子 | Switch Child | nav_parent_switch_child | db_parent_child | parent_id | screens/home.html > screens/switch-child.html |
 | 2 | 家长评价 | Parent Evaluation | btn_parent_home_evaluation | db_parent_evaluation | child_id | screens/home.html > screens/evaluation-tasks.html |
-| 3 | 亲子任务 | Parent-Child Tasks | btn_parent_home_task | db_parent_task | child_id | screens/home.html > screens/parent-tasks.html |
+| 3 | 家园共育 | Home School Coeducation | btn_parent_home_task | db_parent_task | child_id | screens/home.html > screens/home-school.html |
 | 4 | 全部提醒 | All Reminders | btn_parent_home_reminder_all | db_parent_home | child_id | screens/home.html > screens/all-reminders.html |
 | 5 | 全部报告 | All Reports | btn_parent_home_report_all | db_parent_home | child_id | screens/home.html > screens/all-reports.html |
 | 6 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | screens/home.html |
-| 7 | 我的任务 | My Tasks | nav_parent_tasks | nav_parent_tasks | NULL | screens/evaluation-tasks.html |
+| 7 | 家园共育 | Home School | nav_parent_tasks | nav_parent_tasks | NULL | screens/home-school.html |
 | 8 | 在园时光 | Kindergarten Moments | nav_parent_moments | nav_parent_moments | NULL | screens/kindergarten-moments.html |
 | 9 | 儿童档案 | Child Profile | nav_parent_child_profile | nav_parent_child_profile | NULL | screens/child-profile.html |
 
@@ -189,7 +189,7 @@ Mock child_name|class_name|count|date|badge|status|report MUST NOT be returned i
 [NAV_OBJECTS]
 
 首页 (Home / nav_parent_home): node_key=nav_parent_home; object_ref=db_parent_home; route=screens/home.html; persist=0; rel_count=0
-我的任务 (My Tasks / nav_parent_tasks): node_key=nav_parent_tasks; object_ref=db_parent_task_home; route=screens/evaluation-tasks.html; persist=0; rel_count=0
+家园共育 (Home School / nav_parent_tasks): node_key=nav_parent_tasks; object_ref=db_parent_task_home; route=screens/home-school.html; persist=0; rel_count=0
 在园时光 (Kindergarten Moments / nav_parent_moments): node_key=nav_parent_moments; object_ref=db_parent_moment_home; route=screens/kindergarten-moments.html; persist=0; rel_count=0
 儿童档案 (Child Profile / nav_parent_child_profile): node_key=nav_parent_child_profile; object_ref=db_parent_child_profile_home; route=screens/child-profile.html; persist=0; rel_count=0
 切换孩子 (Switch Child / nav_parent_switch_child): node_key=nav_parent_switch_child; object_ref=db_parent_child; route=screens/switch-child.html; persist=0; rel_count=0

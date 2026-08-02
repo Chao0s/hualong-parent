@@ -1,10 +1,13 @@
 PARENT_TASKS_BACKEND_OBJECT_SPEC
 
-scope (范围) = screens/parent-tasks.html
-source_page (参考页面) = parent-tasks.html
-static_node_count (固定可点击节点数) = 9
+scope (范围) = screens/home-school.html
+source_page (参考页面) = home-school.html
+page_rename_note (页面改名说明) = 原 parent-tasks.html，2026-08-02 改名为 home-school.html（decision.md 第 9 条）。同批改动：一级导航 nav_parent_tasks 的显示名由「我的任务」改为「家园共育」、落地页由 evaluation-tasks.html 改为本页；页内两个标签顺序改为「家园共育 | 家长评价」，本页为该导航的默认首屏。node_key 一律不变（shared object 禁止重命名）。spec 文件名保留 parent-tasks-spec.md，避免与被本文件 REUSE 引用的 Teacher/05 home-school-spec.md 混淆
+default_tab_note (默认标签说明) = nav_parent_tasks 落在 home-school.html；evaluation-tasks.html 仅作为第二个标签，不再是该导航的首屏
+static_node_count (固定可点击节点数) = 10
 dynamic_parent_task_card_count (动态亲子任务卡片数) = 0:k
-runtime_clickable_node_count (运行时可点击节点数) = 9:k
+history_card_preview_cap (历史任务预览条数上限) = 3。本页历史任务只渲染最近 3 条，完整时间线在 all-activities.html；上限是前端展示约束，不是查询上限
+runtime_clickable_node_count (运行时可点击节点数) = 10:k
 field_format (字段格式) = field_key (中文字段名), cardinality, type|enum, ui
 id_rule (ID规则) = integer, database_auto_generated
 null_rule (空值规则) = 0:1
@@ -50,22 +53,23 @@ environment_isolation (环境隔离) = demo|test 数据不得复制到 productio
 
 | n | button_name_cn | button_name_en | node_key | object | input | jump |
 |---:|---|---|---|---|---|---|
-| 1 | 家长评价标签 | Parent Evaluation Tab | btn_parent_tasks_evaluation_tab | db_parent_evaluation | child_id | parent-tasks.html > evaluation-tasks.html |
-| 2 | 亲子任务标签 | Parent Task Tab | btn_parent_tasks_parent_tab | db_parent_task_home | child_id | parent-tasks.html |
+| 1 | 家长评价标签 | Parent Evaluation Tab | btn_parent_tasks_evaluation_tab | db_parent_evaluation | child_id | home-school.html > evaluation-tasks.html |
+| 2 | 家园共育标签 | Home School Tab | btn_parent_tasks_parent_tab | db_parent_task_home | child_id | home-school.html |
 | 3 | 全部 | All | btn_parent_tasks_filter_all | db_parent_task | task_filter=all | client filter only; route unchanged |
 | 4 | 日常亲子任务 | Daily Parent Task | btn_parent_tasks_filter_daily | db_parent_task | parent_task_type=t1 | client filter only; route unchanged |
 | 5 | 社区任务 | Community Task | btn_parent_tasks_filter_community | db_parent_task | parent_task_type=t2 | client filter only; route unchanged |
 | 6 | 首页 | Home | nav_parent_home | nav_parent_home | NULL | home.html |
-| 7 | 我的任务 | My Tasks | nav_parent_tasks | nav_parent_tasks | NULL | evaluation-tasks.html |
+| 7 | 家园共育 | Home School | nav_parent_tasks | nav_parent_tasks | NULL | home-school.html |
 | 8 | 在园时光 | Kindergarten Moments | nav_parent_moments | nav_parent_moments | NULL | kindergarten-moments.html |
 | 9 | 儿童档案 | Child Profile | nav_parent_child_profile | nav_parent_child_profile | NULL | child-profile.html |
+| 10 | 全部活动 | All Activities | btn_parent_tasks_all_activities | db_parent_task_submission | child_id | home-school.html > all-activities.html |
 
 
 [DYNAMIC_CONTENT_NODE]
 
 | node_name_cn | node_name_en | node_key | object | input | cardinality | jump |
 |---|---|---|---|---|---|---|
-| 亲子任务卡片 | Parent Task Card | parent_task_card | db_parent_task + db_parent_task_submission | parent_task_id (runtime) | 0:k | parent-tasks.html > parent-task-detail.html?parent_task_id={parent_task_id} |
+| 亲子任务卡片 | Parent Task Card | parent_task_card | db_parent_task + db_parent_task_submission | parent_task_id (runtime) | 0:k | home-school.html > parent-task-detail.html?parent_task_id={parent_task_id} |
 
 dynamic_rule (动态规则) = 任务标题、类型、提交时间、媒体数量、状态和 parent_task_id 来自授权查询；筛选值仅映射到 canonical enum，不写入业务表
 

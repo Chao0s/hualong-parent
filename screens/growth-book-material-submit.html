@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>素材征集 · 第一天与最后一天</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="../assets/app.css" />
+</head>
+<body>
+  <main class="stage"><section class="phone" aria-label="素材征集提交">
+    <div class="statusbar"><span>9:41</span><div class="status-icons"><span class="signal"></span><span class="signal"></span><span class="signal"></span><span class="battery"></span></div></div>
+    <!-- 填写页不带底部导航（parent_ia.md 惯例），返回键回列表页；?from= 支持跨入口回退 -->
+    <div class="app">
+      <header class="top">
+        <a class="back" href="growth-book-materials.html" data-dynamic-back>‹</a>
+        <div class="titleblock"><h1>素材征集</h1></div>
+        <span class="status warn" data-submit-status>待提交</span>
+      </header>
+
+      <section class="card grid task-detail-chunk">
+        <div class="task-copy">
+          <p class="task-label">征集栏目</p>
+          <h2>第一天与最后一天</h2>
+        </div>
+        <div class="task-copy">
+          <p class="task-label">教师说明</p>
+          <p>请提供孩子入学第一天与本学期最后一天的照片各 2 张，每一天配一句话记录。先上传照片，再按成长册版面完成裁剪。</p>
+        </div>
+
+        <div class="row">
+          <span class="small">提交进度</span>
+          <strong data-slot-progress>已完成 0 / 6</strong>
+        </div>
+
+        <!-- 按「页」分组呈现：家长按第一页/第二页提供，槽位比例只在裁剪时出现 -->
+        <div class="section-title inline" style="margin-top:4px;"><h2>第一页 · 入学第一天</h2></div>
+        <div class="field">
+          <label>图片 1</label>
+          <button class="slot-photo" type="button" data-slot data-ratio="1/1" data-ratio-label="1:1">+ 上传照片</button>
+        </div>
+        <div class="field">
+          <label>图片 2</label>
+          <button class="slot-photo" type="button" data-slot data-ratio="3/2" data-ratio-label="3:2">+ 上传照片</button>
+        </div>
+        <div class="field">
+          <label>一句话记录 · 上限 60 字（由版面框大小推导）</label>
+          <textarea maxlength="60" data-slot-text placeholder="写下入学第一天让你印象最深的一幕"></textarea>
+          <span class="small" data-text-count>0 / 60 字</span>
+        </div>
+
+        <div class="section-title inline" style="margin-top:4px;"><h2>第二页 · 学期最后一天</h2></div>
+        <div class="field">
+          <label>图片 1</label>
+          <button class="slot-photo" type="button" data-slot data-ratio="1/1" data-ratio-label="1:1">+ 上传照片</button>
+        </div>
+        <div class="field">
+          <label>图片 2</label>
+          <button class="slot-photo" type="button" data-slot data-ratio="3/2" data-ratio-label="3:2">+ 上传照片</button>
+        </div>
+        <div class="field">
+          <label>一句话记录 · 上限 60 字（由版面框大小推导）</label>
+          <textarea maxlength="60" data-slot-text placeholder="写下学期最后一天孩子说的一句话"></textarea>
+          <span class="small" data-text-count>0 / 60 字</span>
+        </div>
+
+        <p class="small">
+          照片上传后需按成长册版面裁剪，只保存裁剪后的成品、不保留原图，提交后不可回改。
+          全部内容交齐后才能提交（缺件不被接受）；未交的部分教师可代为上传。
+          征集不设截止日期。
+        </p>
+
+        <button class="primary" type="button" data-submit-all disabled>提交（需交齐全部 6 项）</button>
+      </section>
+    </div>
+
+    <!-- 裁剪层：真实裁剪。比例框来自槽位的 grid_w:grid_h，拖动平移、滑杆缩放，只导出框内成品 -->
+    <div class="sheet" data-crop-sheet hidden>
+      <div class="sheet-backdrop" data-crop-cancel></div>
+      <section class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="crop-title">
+        <div class="sheet-head">
+          <div>
+            <h2 id="crop-title">裁剪照片</h2>
+            <p data-crop-hint>按成长册版面裁剪（比例 1:1）· 拖动照片调整取景</p>
+          </div>
+          <button class="icon-button" type="button" aria-label="关闭" data-crop-cancel>×</button>
+        </div>
+        <div class="crop-stage">
+          <canvas data-crop-canvas></canvas>
+        </div>
+        <div class="field" style="margin:0;">
+          <label>缩放</label>
+          <input type="range" min="100" max="300" value="100" data-crop-zoom aria-label="缩放照片">
+        </div>
+        <button class="text-link" type="button" data-crop-repick style="justify-self:start;background:none;border:0;padding:0;cursor:pointer;">换一张照片</button>
+        <div class="actions" style="margin-top:0;">
+          <button class="secondary" type="button" data-crop-cancel>稍后裁剪</button>
+          <button class="primary" type="button" data-crop-confirm>确认裁剪</button>
+        </div>
+      </section>
+    </div>
+    <input type="file" accept="image/*" hidden data-file-input>
+  </section></main>
+  <script src="../assets/app.js"></script>
+  <script>
+    /* 槽位交互：真实上传本地照片 → 拖动/缩放裁剪 → 只导出框内成品；全部完成才放开提交 */
+    (function () {
+      const slots = Array.from(document.querySelectorAll("[data-slot]"));
+      const texts = Array.from(document.querySelectorAll("[data-slot-text]"));
+      const progress = document.querySelector("[data-slot-progress]");
+      const submit = document.querySelector("[data-submit-all]");
+      const status = document.querySelector("[data-submit-status]");
+      const sheet = document.querySelector("[data-crop-sheet]");
+      const hint = document.querySelector("[data-crop-hint]");
+      const canvas = document.querySelector("[data-crop-canvas]");
+      const ctx = canvas.getContext("2d");
+      const zoomInput = document.querySelector("[data-crop-zoom]");
+      const fileInput = document.querySelector("[data-file-input]");
+
+      const FRAME_W = 260;        // 取景框显示宽度；高度按槽位比例算
+      const DPR = 2;              // 导出用 2x 像素，保证成品清晰
+      const states = new Map();   // slot -> { img, base, zoom, ox, oy }；原图只在本页内存中留到提交前，符合「只存成品」
+      let cropping = null;
+
+      const ratioOf = (slot) => {
+        const [w, h] = slot.dataset.ratio.split("/").map(Number);
+        return w / h;
+      };
+
+      const filledCount = () =>
+        slots.filter((slot) => slot.classList.contains("filled")).length +
+        texts.filter((text) => text.value.trim()).length;
+
+      const sync = () => {
+        const filled = filledCount();
+        progress.textContent = `已完成 ${filled} / 6`;
+        submit.disabled = filled < 6;
+        submit.textContent = filled < 6 ? `提交（需交齐全部 6 项）` : "提交";
+      };
+
+      /* ---------- 裁剪核心：canvas 即取景框，平移缩放后所见即导出 ---------- */
+      const clamp = (state) => {
+        const scale = state.base * state.zoom;
+        state.ox = Math.min(0, Math.max(canvas.width - state.img.naturalWidth * scale, state.ox));
+        state.oy = Math.min(0, Math.max(canvas.height - state.img.naturalHeight * scale, state.oy));
+      };
+
+      const draw = (state) => {
+        const scale = state.base * state.zoom;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(state.img, state.ox, state.oy,
+          state.img.naturalWidth * scale, state.img.naturalHeight * scale);
+      };
+
+      const openCrop = (slot) => {
+        const state = states.get(slot);
+        if (!state) return;
+        cropping = slot;
+        const frameH = Math.round(FRAME_W / ratioOf(slot));
+        canvas.width = FRAME_W * DPR;
+        canvas.height = frameH * DPR;
+        canvas.style.width = FRAME_W + "px";
+        canvas.style.height = frameH + "px";
+        /* 基准缩放 = 恰好铺满取景框（cover），滑杆在此之上放大 */
+        state.base = Math.max(canvas.width / state.img.naturalWidth, canvas.height / state.img.naturalHeight);
+        if (!state.ready) {
+          state.ready = true;
+          state.zoom = 1;
+          state.ox = (canvas.width - state.img.naturalWidth * state.base) / 2;
+          state.oy = (canvas.height - state.img.naturalHeight * state.base) / 2;
+        }
+        clamp(state);
+        draw(state);
+        zoomInput.value = Math.round(state.zoom * 100);
+        hint.textContent = `按成长册版面裁剪（比例 ${slot.dataset.ratioLabel}）· 拖动照片调整取景`;
+        sheet.hidden = false;
+      };
+
+      /* 拖动平移 */
+      let dragging = null;
+      canvas.addEventListener("pointerdown", (event) => {
+        if (!cropping) return;
+        dragging = { x: event.clientX, y: event.clientY };
+        canvas.setPointerCapture(event.pointerId);
+      });
+      canvas.addEventListener("pointermove", (event) => {
+        if (!dragging || !cropping) return;
+        const state = states.get(cropping);
+        state.ox += (event.clientX - dragging.x) * DPR;
+        state.oy += (event.clientY - dragging.y) * DPR;
+        dragging = { x: event.clientX, y: event.clientY };
+        clamp(state);
+        draw(state);
+      });
+      canvas.addEventListener("pointerup", () => { dragging = null; });
+
+      /* 缩放：围绕取景框中心 */
+      zoomInput.addEventListener("input", () => {
+        if (!cropping) return;
+        const state = states.get(cropping);
+        const next = Number(zoomInput.value) / 100;
+        const prevScale = state.base * state.zoom;
+        const nextScale = state.base * next;
+        state.ox = canvas.width / 2 - ((canvas.width / 2 - state.ox) / prevScale) * nextScale;
+        state.oy = canvas.height / 2 - ((canvas.height / 2 - state.oy) / prevScale) * nextScale;
+        state.zoom = next;
+        clamp(state);
+        draw(state);
+      });
+
+      /* ---------- 上传与状态流转 ---------- */
+      const pickFor = (slot) => {
+        cropping = slot;
+        fileInput.value = "";
+        fileInput.click();
+      };
+
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file || !cropping) return;
+        const slot = cropping;
+        const img = new Image();
+        img.onload = () => {
+          states.set(slot, { img: img, ready: false, zoom: 1, ox: 0, oy: 0 });
+          slot.classList.remove("filled");
+          slot.classList.add("uploaded");
+          slot.style.backgroundImage = "";
+          slot.textContent = "已上传 · 待裁剪";
+          sync();
+          openCrop(slot);
+        };
+        img.src = URL.createObjectURL(file);
+      });
+
+      slots.forEach((slot) => {
+        slot.style.aspectRatio = slot.dataset.ratio;   // 槽位块本身按声明比例呈现
+        slot.addEventListener("click", () => {
+          if (states.has(slot)) openCrop(slot);        // 已有照片：回到裁剪
+          else pickFor(slot);                          // 没有照片：先选本地图片
+        });
+      });
+
+      document.querySelector("[data-crop-repick]").addEventListener("click", () => {
+        if (cropping) pickFor(cropping);
+      });
+
+      document.querySelectorAll("[data-crop-cancel]").forEach((node) => {
+        node.addEventListener("click", () => { sheet.hidden = true; cropping = null; });
+      });
+
+      document.querySelector("[data-crop-confirm]").addEventListener("click", () => {
+        const slot = cropping;
+        const result = canvas.toDataURL("image/jpeg", 0.9);   // 只导出取景框内的成品
+        slot.dataset.cropSize = `${canvas.width}x${canvas.height}`;
+        slot.classList.remove("uploaded");
+        slot.classList.add("filled");
+        slot.style.backgroundImage = `url(${result})`;
+        slot.innerHTML = `<span class="slot-chip">已裁剪 · ${slot.dataset.ratioLabel} · 点击可调整</span>`;
+        sheet.hidden = true;
+        cropping = null;
+        sync();
+      });
+
+      texts.forEach((text) => {
+        text.addEventListener("input", () => {
+          text.parentElement.querySelector("[data-text-count]").textContent = `${text.value.length} / 60 字`;
+          sync();
+        });
+      });
+
+      submit.addEventListener("click", () => {
+        status.textContent = "已交齐";
+        status.className = "status done";
+        submit.disabled = true;
+        submit.textContent = "已提交";
+        showToast("素材已提交，将进入成长册「第一天与最后一天」栏目");
+      });
+
+      sync();
+    })();
+  </script>
+</body></html>

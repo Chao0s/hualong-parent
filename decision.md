@@ -20,7 +20,7 @@
 
 ### 1. 新增一类家长任务：成长册素材征集（独立于亲子任务）
 
-**页面**：`screens/home.html`、`screens/all-reminders.html`、`screens/evaluation-tasks.html`、`screens/parent-tasks.html`；另需新增一个素材征集提交页（文件名待定）
+**页面**：`screens/home.html`、`screens/all-reminders.html`、`screens/evaluation-tasks.html`、`screens/home-school.html`（原 `parent-tasks.html`，见第 9 条）；另需新增一个素材征集提交页（文件名待定）
 
 **修改内容**：
 
@@ -137,3 +137,92 @@
 | 不定长内容的末页不满怎么配 | **[开放]**（G29-余） | 家长看到的册子末页会不会留白 |
 | `db_term_eval.eval_text` 的字数上限 | **未定**（G31） | 「期末评估」栏目的文字框要多大 |
 | `db_book_material_submission.crop JSON` 的形态 | **待定** | 裁剪框数据怎么提交（见第 3 条） |
+
+---
+
+## 2026-08-02
+
+> 本批是家长端评审的产物（口头评审，非后端下发）。第 9 条的第三点与 2026-08-01 第 7 条存在重叠，
+> 处理方式已由评审当场拍板，记录在下方，实现前不得自行改读。
+
+### 9. 「亲子任务」改称「家园共育」；历史任务加「全部活动」入口与「加入成长册」
+
+**页面**：`screens/parent-tasks.html` → `screens/home-school.html`（改名）、`screens/all-activities.html`（新增）、`screens/home.html`、`screens/evaluation-tasks.html`、`screens/parent-task-detail.html`
+
+**修改内容**：
+
+- **改称呼，不改范围。** 「任务」这个叫法对家长构成压力暗示，因此：
+  - 文件 `parent-tasks.html` → `home-school.html`；
+  - **一级导航「我的任务」→「家园共育」**，四项导航变为 首页 / 家园共育 / 在园时光 / 儿童档案；该导航的落地页由 `evaluation-tasks.html` 改为 `home-school.html`；
+  - 两个页面的 `h1` 均由「我的任务」改为「家园共育」；
+  - 页内标签顺序改为「**家园共育 | 家长评价**」，家园共育在左且为默认首屏（原先是家长评价在左）。
+  - `nav_parent_tasks` 等 node_key **一律不变**——shared object 禁止重命名，改的只是 `button_name_cn` 与 `jump`。
+  任务类型枚举、筛选口径、对象一个没动：仍是日常亲子任务（`parent_task_type=t1`）+ 社区任务（`t2`），筛选仍走 `db_parent_task.parent_task_type`（E5）。spec 文件名 `parent-tasks-spec.md` **保留不改**，避免与被它 REUSE 引用的 `Teacher/05 home-school-spec.md` 混淆。
+- **家长评价页的历史评价改为预览 3 条 + 标题右侧「全部评价」入口**（→ `all-reports.html?from=tasks`），与家园共育页的「历史任务 + 全部活动」同构。原先挂在列表最后一项的「全部历史报告」行已删除——入口沉在列表底部意味着家长要先滚过全部历史条目才看得到它。
+- **历史任务预览上限 3 条**，右侧顶格给「全部活动」入口 → `all-activities.html`，按提交时间倒序列出本家庭提交过的全部图文。3 条是前端展示约束，不是查询上限。
+- **范围是本家庭，不是全班。** `all-activities.html` 只读当前 `child_id` 的 `db_parent_task_submission`。教师端 `community-coeducation.html` 那种全班 feed 不在家长端做——对家长开放他人 UGC 会撞上第 2 条「任何 UGC 在对非作者可见之前必须过一道把关」，而把关的落点仍是 **[开放]** 项（D5、G2，BLOCKER）。
+- **每条提交上给「+ 加入成长册」**，交互对齐教师端 `home-school-moment-feed.html`（同样是「全部活动」页）：点按钮**先弹底部抽屉选片**，抽屉里确定后才写入，卡片按钮再显示 `已加入（N 张）`。不是点一下就全量收录——教师端 `community-coeducation.html` 那种直接切换的形态**不采用**。
+- **粒度：文字整段随附，照片逐张勾选。** 文字不可拆——一条活动分享拆开就不成话，家长只能整段进册或整条不进，因此抽屉里没有文字选项，只有一行说明。照片首次打开默认全选，已加入的条目再点开会回填上次的选择（抽屉标题相应变成「调整收录照片」）。
+- **一张照片都不选 = 移出**，与教师端一致；不存在「零张照片 + 仅文字」的入册态。抽屉的确定按钮据此变文案：选了 N 张显示 `加入（N）`，一张没选且此前已加入则显示 `移出成长册`。
+  - 这一条与第 1 条素材征集的「齐备判定要全满」不冲突：那是**教师发起**的槽位征集，家长必须交满；这里是**家长自发**的推荐，选多少张由家长定。两者是不同流程，不要互相套用规则。
+
+**与第 7 条的重叠及其处理**：
+
+- 第 7 条已定「亲子活动」栏目读 `db_parent_task_submission`，即家长提交的图文**本来就自动进册**；教师端那个「+ 加入成长册」是**教师**的挑选动作（写「在园时光」栏目的班级级成长资料）。两者叠加会导致同一条提交进册两次。
+- **拍板：两方的推荐都写入，先写入再一起去重。** 家长点「加入成长册」写的是一条推荐，教师挑选写的是另一条，两条都落库；成册时按提交去重，同一条 `parent_task_submission_id` 只出现一次。不做「谁覆盖谁」的优先级，也不让任一端的动作阻断另一端。
+- 原型实现：家长端与教师端共用同一份 `localStorage` 结构（key `hualong.growth-book.v1`、`material[]` 条目形状一致），条目按 `id` 天然去重；家长写入的条目带 `source:"parent"` 以便与教师挑选区分。
+
+**对 backend 的影响**：
+
+- 家长的「加入成长册」**不是一个布尔标记位**：因为照片可以只选部分，需要存下**被选中的文件子集**（指向该 `parent_task_submission` 名下 `db_file_ref` 的一组 `file_id`），文字则不必存——整段随提交本身走。家长端可反复开关、可改选，所以这组关联要能整体覆盖重写。**[待定]**：它落在 `db_parent_task_submission` 的一个 JSON 列、还是一张 `submission_id × file_id` 的关联表，未拍板。
+- 去重发生在成册取数时，不在写入时；教师挑选与家长推荐指向同一条提交时合并为一条，照片取两方选集的并集。**[待定]**：并集是否正确，取决于教师端是否也允许选片，未核对。
+- 家园共育页的 `static_node_count` 由 9 增至 10（多了「全部活动」），`parent-tasks-spec.md` 已同步；`all-activities.html` 尚无独立 spec。
+- 五份 spec 里 `nav_parent_tasks` 的 `button_name_cn` 与 `jump` 已全量改为「家园共育 / home-school.html」；`home-spec.md` 的 `[PAGE_OBJECT]` 导航条目同步改 route。
+- **`evaluation-tasks.html` 没有对应的 spec 文件**，所以历史评价改预览 3 条 + 「全部评价」入口这件事目前只记在本文件与 `parent_ia.md`，后端无处对照。要不要补一份 `evaluation-tasks-spec.md` 未定。
+- `parent_ia.md` 的一级导航、两个标签的顺序与默认首屏、「家园共育」小节已同步。
+
+### 10. 素材征集的入口与呈现：触达走首页待办，归属挂成长册（拍板 parent_ia.md 原【未定】项）
+
+**页面**：`screens/home.html`、`screens/all-reminders.html`、`screens/growth-book.html`、`screens/growth-book-materials.html`（新建）、`screens/growth-book-material-submit.html`（新建）
+
+**背景**：`parent_ia.md` 原记录「入口挂在四个一级导航中的哪一个【未定】，实现前须先问」，两处来源主张不一（growth-book-spec 主张儿童档案→成长册；本文件 §1 主张首页待办/全部提醒/家园共育）。2026-08-02 评审拍板如下，两处主张**各取一半、并不矛盾**：
+
+- **触达与归属分离。** 家长「怎么知道有征集」与征集「常驻在哪」是两件事：
+  - **触达**：首页「待办提醒」流 + 全部提醒页。有征集就多一张卡（红点），**点击直达该栏目的提交页**（与月度评价卡直达填写页同构，不经列表页中转；教师惯常一次收齐，一栏目一卡已覆盖常态）；无征集时不存在任何入口。
+  - **归属**：儿童档案 → 成长册页内的条目行 → `growth-book-materials.html`。**有征集才渲染，无征集时整行不存在**（同儿童档案「教师推送后才可见」哲学）。
+  - **家园共育不动**——素材征集不进它的任务列表（§1 已定不复用 db_parent_task，本条是 UI 层的再确认）。
+- **不计入「今日待办 N 项」。** 征集无 due_at、无逾期态（E3），进不了也不该进 `today_reminder_count` 的时限语义；它只出现在待办列表（带红点）。顶部数字继续只数有今日期限的事。
+- **成长册页入口的三态**：待提交 N 项（红点）→ 已交齐（保留入口可复查，含教师代传标识）→ 教师删除栏目才消失。**已交齐不收回入口**，因为撤回会删提交，家长需要能回去核对的地方。
+- **撤回即重新触达（推论）**：撤回删提交 → 栏目回到未交齐 → 首页待办卡自动重现，不需要单独的撤回通知机制。列表页给「征集已撤回，此前提交已删除」的说明态（§3 要求）。
+- **提交页齐备门槛前端化**：提交键在全部槽位有内容前置灰（§1「齐备判定要全满、缺件不被接受」的呈现）；裁剪层按槽位 `grid_w:grid_h` 出比例框（§3）；文字槽 maxlength 由版面推导（§2）。
+
+**对 backend 的影响**：
+
+- `home-spec.md:112` 的 `material_request_reminder` 未定项就此拍板：**进 reminder_list、不进 today_reminder_count**。spec 正文尚未改写，改写时以本条为准。
+- 原型与 growth-book-spec 的两处出入，待 reconcile：①提交页按 `parent_ia.md` 惯例**不带底部导航**（返回键 + `?from=` 回退），spec 的 material-submit 节点表列了 3 个导航项；②成长册页的 `btn_parent_book_material_entry` 在 spec 里是静态节点，本条把它改成**条件渲染**（无征集不存在），静态节点数语义需调整。
+- 裁剪框数据形态（crop JSON）与内容把关落点两项 **[开放]** 维持原状，原型未实现可见性逻辑、未定义裁剪数据。
+
+### 11. 成长册改书架逻辑；提交页按页分组、先传后裁；删「成长档案」页；「评价/评估报告」改「评估报告」
+
+**页面**：`screens/growth-book.html`、`screens/growth-book-material-submit.html`、`screens/growth-book-materials.html`、`screens/child-profile.html`、`screens/growth-record.html`（删除）、`screens/home.html`、`screens/all-reminders.html`
+
+**修改内容**：
+
+- **成长册页改书架逻辑。** 一学期只有一本成长册，素材征集阶段材料未齐，本学期的册子**尚不存在**——不存在「生成中的当前册」可看。`growth-book.html` 默认进书架模式：素材征集入口（红点）+ 历史成长册列表（小班上/下学期，可完整查看）；`?book=` 指定历史册时进册内模式，返回键回书架。原「中班上学期成长册（生成中）」的 mock 数据已从 `GROWTH_BOOKS` 删除；儿童档案页成长册入口徽标由「生成中」改为「征集中」。
+- **征集内容改为「第一天与最后一天」**：入学第一天与学期最后一天，各 2 张照片 + 1 段文字，共 6 项。首页/全部提醒的待办卡、列表页卡片同步改。
+- **提交页按「页」分组呈现，弱化槽位**：家长看到的是「第一页 · 入学第一天（图片 1、图片 2、一句话记录）／第二页 · 学期最后一天（同构）」，不再逐槽位标注比例。教师端最终仍按槽位（widget）界定，比例只在裁剪层出现——展示分组是 UI 语言，数据粒度不变。
+- **先上传、后裁剪**：点击图片位先模拟上传（进入「已上传 · 待裁剪」琥珀态），随后进裁剪层；裁剪确认后转完成态。裁剪层给「稍后裁剪」出口，未裁剪的项不计入进度——齐备判定按裁剪完成算，因为最终入库的是裁切成品（§3 只存成品）。
+- **删除成长档案页（`growth-record.html`）**。核查结论（本条由用户提出、经核查成立）：①全应用只有儿童档案一处入口；②页面内容是纯素材聚合镜像（亲子任务图文条数、月度评价状态、按月时间线），与「全部活动」「在园时光」「成长册」完全重复，页内卡片甚至不可点击；③首页报告流的成长档案卡按 home-spec 跳的是 `evaluation-history-detail.html?report_type=growth`，不经过此页，删除不破坏任何跳转链。**`db_growth_record` 对象保留**——它是 Teacher canonical、教师端照常写入、home-spec 报告流照常读取，删的只是家长端的专门页面。
+- **「评价/评估报告」改名「评估报告」**（儿童档案页入口），node_key `btn_parent_profile_evaluation_report` 不变。
+
+**对 backend 的影响**：
+
+- `child-profile-spec.md` 已同步：静态节点 11→10、动态状态 0:3→0:2、删 `growth_record_id` 字段与 `growth_record_status` 算式、`rel_count` 9→8、共享对象表移除 `db_growth_record`。
+- `growth-book.html` 的书架模式意味着家长端需要「该幼儿全部学期成长册」的列表接口（`UNIQUE(child_id, term_id)` 天然支持，§5 已有此描述），以及「当前学期是否处于征集期」的判断——后者由征集栏目的存在派生，不需要新状态位。
+- 「征集中」徽标的派生口径：该幼儿当前学期存在教师发布的 `collected` 槽位栏目且未交齐。与 `growth_book_status` 的 g1/g2 映射并存，**优先级未定**（若征集与已生成并存时显示哪个，理论上不会发生——生成前提是交齐）。
+
+**同批追加（2026-08-02 二轮评审）**：
+
+- **历史成长册改翻页书本**：视觉与交互对齐教师端 `growth-book-sample.html`（封面 → 栏目页 → 封底，点书页或左右按钮翻页，绕左缘 3D 翻转），替换原先的卡片纵列。样式移植进 `assets/app.css`（token 换成家长端），构建/翻页逻辑在 `app.js` 的 `buildBookPages` / `bindGrowthBook`。
+- **撤回项并入「已交齐」分组**，只挂「已撤回」徽标（不可点击），不再用页顶告示卡——保证「待提交」永远是列表第一个分组（本页的首要工作）。注意：撤回项放在「已交齐」下是**展示归位**，不是状态语义（它并未交齐），后端仍按「提交已删除」处理。
+- **提交页的上传与裁剪做成真实功能**：`<input type="file">` 选本地图片 → canvas 取景框（比例 = 槽位 `grid_w:grid_h`，2x 像素导出）→ 拖动平移（pointer 事件、边界钳制）+ 滑杆缩放（围绕中心）→ 确认后只导出框内 JPEG（q0.9），槽位直接显示裁切成品。原图只存于页面内存、确认后不落存储，与「只存成品不留原图」一致；`crop JSON` 形态仍 **[待定]**，导出参数未持久化。

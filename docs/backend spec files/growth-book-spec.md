@@ -19,7 +19,7 @@ list_rule (列表规则) = 0:k | 1:k
 
 [SPEC_SPLIT_RULE]
 
-why_new_file (为何独立成 spec) = 成长册查看与成长册素材征集既不属于 parent-tasks.html 的亲子任务（db_parent_task 一系，E5 已确认筛选只按 parent_task_type），也不属于 child-profile.html 的档案编辑范围；两者共用同一组对象（db_growth_book、db_growth_book_template、db_growth_book_section、db_book_widget、db_book_material_submission、db_teacher_message），故合为一份 spec，不再拆两份
+why_new_file (为何独立成 spec) = 成长册查看与成长册素材征集既不属于 home-school.html（原 parent-tasks.html）的亲子任务（db_parent_task 一系，E5 已确认筛选只按 parent_task_type），也不属于 child-profile.html 的档案编辑范围；两者共用同一组对象（db_growth_book、db_growth_book_template、db_growth_book_section、db_book_widget、db_book_material_submission、db_teacher_message），故合为一份 spec，不再拆两份
 covered_subject (覆盖主题) = 成长册查看（按幼儿、按学期）+ 成长册素材征集（家长提交）
 not_covered (不覆盖) = 教师端的模版编辑、栏目新增、批量导出与生成检查表；这些在 Teacher/05 home-school-spec.md
 entry_point (入口) = child-profile.html > 成长册（btn_parent_profile_growth_book），详见 child-profile-spec.md
@@ -79,12 +79,12 @@ environment_isolation (环境隔离) = demo|test 数据不得复制到 productio
 | 3 | growth-book | 生成并分享PDF | Build and Share PDF | btn_parent_book_share_pdf | db_parent_growth_book_home | child_id, term_id | 设备端渲染后调起微信分享，不请求文件下载 |
 | 4 | growth-book | 素材征集待办 | Material Requests | btn_parent_book_material_entry | db_parent_book_material_request | child_id | growth-book.html > growth-book-materials.html |
 | 5 | growth-book | 首页 | Home | nav_parent_home | nav_parent_home | NULL | home.html |
-| 6 | growth-book | 我的任务 | My Tasks | nav_parent_tasks | nav_parent_tasks | NULL | evaluation-tasks.html |
+| 6 | growth-book | 家园共育 | Home School | nav_parent_tasks | nav_parent_tasks | NULL | home-school.html |
 | 7 | growth-book | 在园时光 | Kindergarten Moments | nav_parent_moments | nav_parent_moments | NULL | kindergarten-moments.html |
 | 8 | growth-book | 儿童档案 | Child Profile | nav_parent_child_profile | nav_parent_child_profile | NULL | child-profile.html |
 | 9 | material-list | 返回 | Back | btn_parent_material_list_back | db_parent_book_material_request | NULL | growth-book-materials.html > growth-book.html |
 | 10 | material-list | 首页 | Home | nav_parent_home | nav_parent_home | NULL | home.html |
-| 11 | material-list | 我的任务 | My Tasks | nav_parent_tasks | nav_parent_tasks | NULL | evaluation-tasks.html |
+| 11 | material-list | 家园共育 | Home School | nav_parent_tasks | nav_parent_tasks | NULL | home-school.html |
 | 12 | material-list | 在园时光 | Kindergarten Moments | nav_parent_moments | nav_parent_moments | NULL | kindergarten-moments.html |
 | 13 | material-list | 儿童档案 | Child Profile | nav_parent_child_profile | nav_parent_child_profile | NULL | child-profile.html |
 | 14 | material-list | 栏目待办卡片入口 | Open Material Request | btn_parent_material_request_open | db_parent_book_material_request | section_id | growth-book-materials.html > growth-book-material-submit.html?section_id={section_id} |
@@ -94,10 +94,11 @@ environment_isolation (环境隔离) = demo|test 数据不得复制到 productio
 | 18 | material-submit | 重新选择 | Replace Photo | btn_parent_material_replace_photo | db_book_material_submission | widget_id | 覆盖该槽位的未提交内容 |
 | 19 | material-submit | 提交 | Submit Materials | btn_parent_material_submit | db_book_material_submission | section_id | 提交该栏目全部槽位后返回 growth-book-materials.html |
 | 20 | material-submit | 首页 | Home | nav_parent_home | nav_parent_home | NULL | home.html |
-| 21 | material-submit | 我的任务 | My Tasks | nav_parent_tasks | nav_parent_tasks | NULL | evaluation-tasks.html |
+| 21 | material-submit | 家园共育 | Home School | nav_parent_tasks | nav_parent_tasks | NULL | home-school.html |
 | 22 | material-submit | 儿童档案 | Child Profile | nav_parent_child_profile | nav_parent_child_profile | NULL | child-profile.html |
 
-prototype_gap (原型缺口) = growth-book-materials.html 与 growth-book-material-submit.html 尚未在 hualong-parent/screens 建立；本 spec 先定名与 ui= 标注，前端据此实现并原样保留 data-ui 属性
+prototype_gap (原型缺口) = 已消除：growth-book-materials.html 与 growth-book-material-submit.html 于 2026-08-02 建立（Parent/decision.md 第 10 条）。与本 spec 的两处出入待 reconcile：①material-submit 页按 parent_ia.md 填写页惯例不带底部导航（本表 20-22 号导航节点未落地，回退走返回键 + ?from=）；②growth-book 页的 btn_parent_book_material_entry 为条件渲染（无征集不渲染），不再是恒在的静态节点
+entry_decision (入口拍板) = 触达=首页待办提醒卡直达 material-submit（不计入 today_reminder_count，无 due_at）；归属=本页条目行进 materials 列表；家园共育不出现。详见 Parent/decision.md 第 10 条
 screens_registry_note (页面登记说明) = 两个新页面需补进 hualong-backend/db/spec/screens.tsv，该文件为手工维护，不在本次改动范围
 
 
